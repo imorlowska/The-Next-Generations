@@ -152,7 +152,7 @@ public class Specimen {
     }
     
     private void throwExceptionIfDead() throws IllegalStateException {
-        if (this.alive) {
+        if (!this.alive) {
             throw new IllegalStateException("The specimen is dead!");
         }
     }
