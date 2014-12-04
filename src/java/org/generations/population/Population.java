@@ -16,6 +16,7 @@
  */
 package org.generations.population;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,5 +25,78 @@ import java.util.List;
  */
 public class Population {
     private List<Specimen> population;
+    private String name;
+    private int ageCycles;
+
+    public Population(String name) {
+        this.name = name;
+        this.population = new ArrayList<>();
+        this.ageCycles = 0;
+    }
     
+    public Population(String name, List<Specimen> population, int ageCycles) {
+        this.name = name;
+        this.population = population;
+        this.ageCycles = ageCycles;
+    }
+    
+    public void addSpecimen(Specimen specimen) {
+        this.population.add(specimen);
+    }
+    
+    /**
+     * Remove a specimen from the population.
+     * @param specimen to remove
+     * @throws IllegalAccessException if specimen not in population
+     */
+    public void removeSpecimen(Specimen specimen) throws IllegalAccessException {
+        if (this.population.contains(specimen)) {
+            this.population.remove(specimen);
+        } else {
+            throw new IllegalAccessException("Specimen " + specimen.toString() 
+                    + " does not exist!");
+        }
+    }
+    
+    /**
+     * @return the population
+     */
+    public List<Specimen> getPopulation() {
+        return population;
+    }
+
+    /**
+     * @param population the population to set
+     */
+    public void setPopulation(List<Specimen> population) {
+        this.population = population;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the ageCycles
+     */
+    public int getAgeCycles() {
+        return ageCycles;
+    }
+
+    /**
+     * @param ageCycles the ageCycles to set
+     */
+    public void setAgeCycles(int ageCycles) {
+        this.ageCycles = ageCycles;
+    }
 }
