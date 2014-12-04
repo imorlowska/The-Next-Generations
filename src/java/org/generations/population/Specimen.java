@@ -16,6 +16,8 @@
  */
 package org.generations.population;
 
+import com.sun.istack.Nullable;
+
 /**
  * A class containing information about a single specimen and its genotype.
  * @author Izabela Orlowska <imorlowska@gmail.com>
@@ -28,12 +30,16 @@ public class Specimen {
     private long specimenID;
     private int age;
     private int lifeExp;
+    private boolean alive;
+    private Genotype genotype;
     
     /////////////////////////////////// PRIVATE CONSTRUCTOR AND DEFAULT VALUES ///////////////////
     private Specimen() {
         this.specimenID = ++specimenNumberToDate;
         this.age = 0;
         lifeExp = averageLifeExp;
+        alive = true;
+        genotype = null;
     }
     
     /////////////////////////////////// STATIC CONSTRUCTOR METHOD AND IN PLACE SETTERS ///////////
@@ -41,12 +47,14 @@ public class Specimen {
         return new Specimen();
     }
     
-    public Specimen setAge(int age) {
+    public Specimen setAge(int age) throws IllegalStateException {
+        throwExceptionIfDead();
         this.age = age;
         return this;
     }
     
-    public Specimen setSpecimenID(long ID) {
+    public Specimen setSpecimenID(long ID) throws IllegalStateException {
+        throwExceptionIfDead();
         this.specimenID = ID;
         if (ID >= specimenNumberToDate) {
             specimenNumberToDate = ID +1;
@@ -54,11 +62,17 @@ public class Specimen {
         return this;
     }
     
-    public Specimen setLifeExp(int lifeExp) {
+    public Specimen setLifeExp(int lifeExp) throws IllegalStateException {
+        throwExceptionIfDead();
         this.lifeExp = lifeExp;
         return this;
     }
     
+    public Specimen setGenotype(Genotype genotype) throws IllegalStateException {
+        throwExceptionIfDead();
+        this.genotype = genotype;
+        return this;
+    }
     /////////////////////////////////// STATIC SETTERS ///////////////////////////////////////////
     /**
      * Should only be called if reading a whole population.
@@ -97,6 +111,10 @@ public class Specimen {
         return this.lifeExp;
     }
     
+    @Nullable
+    public Genotype getGenotype() {
+        return this.genotype;                
+    }
     /////////////////////////////////// STATIC GETTERS ///////////////////////////////////////////
     public static long getSpecimenNumberToDate() {
         return specimenNumberToDate;
@@ -115,7 +133,8 @@ public class Specimen {
      * Ages the specimen.
      * @return true if specimen died, false otherwise
      */
-    public boolean ageSpecimenAndMaybeKill() {
+    public boolean ageSpecimenAndMaybeDie() {
+        throwExceptionIfDead();
         ++this.age;
         if (this.age >= this.lifeExp) {
             this.die();
@@ -129,5 +148,38 @@ public class Specimen {
      */
     public void die() {
         ++specimenDead;
+        this.alive = false;
+    }
+    
+    private void throwExceptionIfDead() throws IllegalStateException {
+        if (this.alive) {
+            throw new IllegalStateException("The specimen is dead!");
+        }
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder desc = new StringBuilder();
+        desc.append("Specimen # ");
+        desc.append(this.specimenID);
+        return desc.toString();
+    }
+    
+    public String toStringDetailed() {
+        StringBuilder desc = new StringBuilder();
+        desc.append(this.toString());
+        desc.append("\nStatus: ");
+        if (this.alive) {
+            desc.append("alive");
+            desc.append("\nAge: ");
+            desc.append(this.age);
+            desc.append("\nETTL: ");
+            desc.append(this.lifeExp - this.age);
+        } else {
+            desc.append("deceased");
+            desc.append("\nAge at the time of death: ");
+            desc.append(this.age);
+        }
+        return desc.toString();
     }
 }

@@ -53,8 +53,7 @@ public class Population {
         if (this.population.contains(specimen)) {
             this.population.remove(specimen);
         } else {
-            throw new IllegalAccessException("Specimen " + specimen.toString() 
-                    + " does not exist!");
+            throw new IllegalAccessException(specimen.toString() + " does not exist!");
         }
     }
     
