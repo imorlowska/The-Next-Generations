@@ -25,7 +25,7 @@ import org.generations.population.exceptions.IncompatibleCharacteristicsExceptio
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public abstract class Characteristic {
-    private String name;
+    protected String name;
     
     public Characteristic(String name) {
         this.name = name;
@@ -38,5 +38,5 @@ public abstract class Characteristic {
     public abstract String getCharacteristicType();
     
     public abstract Characteristic produceChildWith(Characteristic mate) 
-            throws IncompatibleCharacteristicsException;
+            throws Exception;
 }

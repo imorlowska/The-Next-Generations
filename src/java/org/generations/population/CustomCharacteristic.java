@@ -18,10 +18,12 @@ package org.generations.population;
 
 import org.generations.population.exceptions.IncompatibleCharacteristicsException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import org.generations.other.Pair;
+import org.generations.population.exceptions.InvalidCustomCharacteristicTypeException;
 
 /**
  * A custom characteristic class. How to use:
@@ -44,16 +46,116 @@ public class CustomCharacteristic extends Characteristic {
     public CustomCharacteristic(String name) {
         super(name);
         types = new ArrayList();
+        type = "Not set";
+        probabilities = new HashMap();
     }
-
-    @Override
-    public Characteristic produceChildWith(Characteristic mate)
-            throws IncompatibleCharacteristicsException {
-        return null;
+    
+    public void addType(String type) 
+            throws InvalidCustomCharacteristicTypeException {
+        if (types.contains(type)) {
+            throw new InvalidCustomCharacteristicTypeException();
+        }
+        types.add(type);
+    }
+    
+    public void addTypes(List<String> types)
+            throws InvalidCustomCharacteristicTypeException {
+        for (String t : types) {
+            this.addType(t);
+        }
+    }
+    
+    public List<String> getTypes() {
+        return this.types;
+    }
+    
+    public void setType(String type)
+            throws InvalidCustomCharacteristicTypeException {
+        if (!types.contains(type)) {
+            throw new InvalidCustomCharacteristicTypeException();
+        }
+        this.type = type;
+    }
+    
+    public void addProbability(
+            Pair<String, String> key, List<Pair<String, Integer>> values)
+            throws InvalidCustomCharacteristicTypeException {
+        if ( (!types.contains(key.getFirst())) 
+                || (!types.contains(key.getSecond()))) {
+            // invalid key
+            throw new InvalidCustomCharacteristicTypeException();
+        }
+        int sum = 0;
+        for (Pair<String, Integer> value : values) {
+            if (!types.contains(value.getFirst())
+                    || value.getSecond() < 0
+                    || value.getSecond() > 100) {
+                // invalid type in values
+                throw new InvalidCustomCharacteristicTypeException();
+            }
+            sum += value.getSecond();
+        }
+        if (sum != 100) {
+            // probability values should sum up to a 100
+            throw new InvalidCustomCharacteristicTypeException();
+        }
+        if (values.size() != types.size()) {
+            // invalid number of values for key
+            throw new InvalidCustomCharacteristicTypeException();
+        }
+        
+        probabilities.put(key, values);
+        probabilities.put(new Pair(key.getSecond(), key.getFirst()), values);
+    }
+    
+    private void addProbabilities(
+            Map<Pair<String, String>, List<Pair<String, Integer>>> map) {
+        this.probabilities = map;
+    }
+    
+    public Map<Pair<String, String>, List<Pair<String, Integer>>> 
+        getProbabilities() {
+        return this.probabilities;
     }
 
     @Override
     public String getCharacteristicType() {
-        return null;
+        return this.type;
+    }
+    
+    @Override
+    public Characteristic produceChildWith(Characteristic mate)
+            throws IncompatibleCharacteristicsException, 
+            InvalidCustomCharacteristicTypeException {
+        if (!(mate instanceof CustomCharacteristic)
+                 || !(mate.getName().equals(this.getName()))) {
+            throw new IncompatibleCharacteristicsException();
+        }
+        Pair<String, String> key = 
+                new Pair(this.type, mate.getCharacteristicType());
+        List<Pair<String, Integer>> probability = probabilities.get(key);
+        return getChild(probability);
+    }
+    
+    private CustomCharacteristic getChild(
+            List<Pair<String, Integer>> probability) 
+            throws InvalidCustomCharacteristicTypeException {
+        CustomCharacteristic child = new CustomCharacteristic(this.name);
+        child.addTypes(this.types);
+        child.addProbabilities(probabilities);
+        
+        int percent = rand.nextInt(101);
+        for (Pair<String, Integer> p : probability) {
+            percent -= p.getSecond();
+            if (percent <= 0) {
+                child.setType(p.getFirst());
+                break;
+            }
+        }
+        if (percent > 0) {
+            // didn't find type
+            throw new InvalidCustomCharacteristicTypeException();
+        }
+        return child;
     }
 }

@@ -5,6 +5,6 @@ package org.generations.population.exceptions;
  * characteristic.
  * @author Izabela Orlowska (imorlowska@gmail.com)
  */
-public class InvalidCustomCharacteristicTypeException {
+public class InvalidCustomCharacteristicTypeException extends Exception {
     
 }
