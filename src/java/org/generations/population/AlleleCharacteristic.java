@@ -16,6 +16,7 @@
  */
 package org.generations.population;
 
+import org.generations.population.exceptions.IncompatibleCharacteristicsException;
 import java.util.Random;
 
 /**
@@ -26,12 +27,15 @@ import java.util.Random;
  */
 public class AlleleCharacteristic extends Characteristic {
     private static final Random rand = new Random();
+    private String dominantName;
+    private String recessiveName;
     private Allele first;
     private Allele second;
     
     public AlleleCharacteristic(String name) {
         super(name);
         first = second = null;
+        dominantName = recessiveName = "Not set";
     }
     
     public void setAllele(Allele first, Allele second) {
@@ -53,6 +57,36 @@ public class AlleleCharacteristic extends Characteristic {
     
     public Allele getSecondAllele() {
         return second;
+    }
+    
+    public void setNames(String dominant, String recessive) {
+        this.dominantName = dominant;
+        this.recessiveName = recessive;
+    }
+    
+    public void setDominantName(String dominant) {
+        this.dominantName = dominant;
+    }
+    
+    public void setRecessiveName(String recessive) {
+        this.recessiveName = recessive;
+    }
+    
+    public String getDominantName() {
+        return this.dominantName;
+    }
+    
+    public String getRecessiveName() {
+        return this.recessiveName;
+    }
+    
+    @Override
+    public String getCharacteristicType() {
+        if (this.isDominant()) {
+            return this.getDominantName();
+        } else {
+            return this.getRecessiveName();
+        }
     }
     
     public boolean isDominant() {

@@ -16,20 +16,37 @@
  */
 package org.generations.population;
 
+import org.generations.population.exceptions.IncompatibleCharacteristicsException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import org.generations.other.Pair;
+
 /**
  * TODO(imorlowska): add description
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class CustomCharacteristic extends Characteristic {
-
+    private static final Random rand = new Random();
+    private String type;
+    private List<String> types;
+    private Map<Pair<String, String>, List<Pair<String, Integer>>> 
+            probabilities;
+    
     public CustomCharacteristic(String name) {
         super(name);
+        types = new ArrayList();
     }
 
     @Override
-    public Characteristic produceChildWith(Characteristic mate) throws IncompatibleCharacteristicsException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Characteristic produceChildWith(Characteristic mate)
+            throws IncompatibleCharacteristicsException {
+        return null;
     }
-    
-    
+
+    @Override
+    public String getCharacteristicType() {
+        return null;
+    }
 }

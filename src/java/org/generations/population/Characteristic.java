@@ -16,6 +16,8 @@
  */
 package org.generations.population;
 
+import org.generations.population.exceptions.IncompatibleCharacteristicsException;
+
 /**
  * A class containing information about a single characteristic.
  * There can be many types of characteristics, e.g. colour, texture, height.
@@ -32,6 +34,8 @@ public abstract class Characteristic {
     public String getName() {
         return name;
     }
+    
+    public abstract String getCharacteristicType();
     
     public abstract Characteristic produceChildWith(Characteristic mate) 
             throws IncompatibleCharacteristicsException;
