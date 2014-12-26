@@ -32,4 +32,7 @@ public abstract class Characteristic {
     public String getName() {
         return name;
     }
+    
+    public abstract Characteristic produceChildWith(Characteristic mate) 
+            throws IncompatibleCharacteristicsException;
 }

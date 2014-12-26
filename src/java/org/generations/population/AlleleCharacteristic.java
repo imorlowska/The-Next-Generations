@@ -19,7 +19,7 @@ package org.generations.population;
 import java.util.Random;
 
 /**
- * Characteristic based on two allele. 
+ * Characteristic based on two alleles.
  * More info: http://learn.genetics.utah.edu/content/inheritance/patterns/
  * 
  * @author Izabela Orlowska <imorlowska@gmail.com>
@@ -68,24 +68,27 @@ public class AlleleCharacteristic extends Characteristic {
             first.equals(Allele.RECESSIVE) && second.equals(Allele.RECESSIVE);
     }
     
-    public static AlleleCharacteristic produceChild(
-            AlleleCharacteristic p1, AlleleCharacteristic p2) 
+    @Override
+    public Characteristic produceChildWith(Characteristic mate) 
             throws IncompatibleCharacteristicsException {
         
-        if (!(p1.getName().equals(p2.getName()))) {
+        if (!(mate instanceof AlleleCharacteristic)
+                || !(mate.getName().equals(this.getName()))) {
             throw new IncompatibleCharacteristicsException();
         }
         
-        AlleleCharacteristic child = new AlleleCharacteristic(p1.getName());
+        AlleleCharacteristic child = new AlleleCharacteristic(this.getName());
         if (rand.nextBoolean()) {
-            child.setFirstAllele(p1.getFirstAllele());
+            child.setFirstAllele(this.getFirstAllele());
         } else {
-            child.setFirstAllele(p1.getSecondAllele());
+            child.setFirstAllele(this.getSecondAllele());
         }
         if (rand.nextBoolean()) {
-            child.setSecondAllele(p2.getFirstAllele());
+            child.setSecondAllele(
+                    ((AlleleCharacteristic)mate).getFirstAllele());
         } else {
-            child.setSecondAllele(p2.getSecondAllele());
+            child.setSecondAllele(
+                    ((AlleleCharacteristic)mate).getSecondAllele());
         }
         return child;
     }

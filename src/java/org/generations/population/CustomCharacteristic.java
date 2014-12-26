@@ -25,5 +25,11 @@ public class CustomCharacteristic extends Characteristic {
     public CustomCharacteristic(String name) {
         super(name);
     }
+
+    @Override
+    public Characteristic produceChildWith(Characteristic mate) throws IncompatibleCharacteristicsException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     
 }
