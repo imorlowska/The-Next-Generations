@@ -24,7 +24,14 @@ import java.util.Random;
 import org.generations.other.Pair;
 
 /**
- * TODO(imorlowska): add description
+ * A custom characteristic class. How to use:
+ * 1. Add all the possible types for the characteristic
+ * 2. Specify the type of the current instance. Make sure it is included in the
+ *      list from step 1.
+ * 3. Specify the probabilities by adding list of probability pairs
+ *      (type, percentage) to key <type1, type2>. Make sure the types are 
+ *      included in the list from step 1.
+ * 
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class CustomCharacteristic extends Characteristic {
