@@ -21,5 +21,9 @@ package org.generations.population;
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class CustomCharacteristic extends Characteristic {
+
+    public CustomCharacteristic(String name) {
+        super(name);
+    }
     
 }

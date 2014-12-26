@@ -17,9 +17,10 @@
 package org.generations.population;
 
 /**
- * TODO(imorlowska): add description
+ * Allele type: dominant or recessive.
+ * More info: http://learn.genetics.utah.edu/content/inheritance/patterns/
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
-public class Allele {
-    
+public enum Allele {
+    DOMINANT, RECESSIVE
 }

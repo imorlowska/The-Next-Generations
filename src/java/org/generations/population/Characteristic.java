@@ -23,5 +23,13 @@ package org.generations.population;
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public abstract class Characteristic {
+    private String name;
     
+    public Characteristic(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
 }
