@@ -26,6 +26,10 @@ import java.util.Random;
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class AlleleCharacteristic extends Characteristic {
+    public static final AlleleCharacteristic FEMALE = 
+            getGenderCharacteristic(false);
+    public static final AlleleCharacteristic MALE = 
+            getGenderCharacteristic(true);
     private static final Random rand = new Random();
     private String dominantName;
     private String recessiveName;
@@ -125,5 +129,18 @@ public class AlleleCharacteristic extends Characteristic {
                     ((AlleleCharacteristic)mate).getSecondAllele());
         }
         return child;
+    }
+    
+    private static AlleleCharacteristic getGenderCharacteristic(
+            boolean isMale) {
+        AlleleCharacteristic sex = new AlleleCharacteristic("gender");
+        sex.setDominantName("male");
+        sex.setRecessiveName("female");
+        if (isMale) {
+            sex.setAllele(Allele.RECESSIVE, Allele.DOMINANT);
+        } else { //female
+            sex.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
+        }
+        return sex;
     }
 }

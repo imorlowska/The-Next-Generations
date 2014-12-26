@@ -17,6 +17,9 @@
 package org.generations.population;
 
 import com.sun.istack.Nullable;
+import org.generations.population.Genotype.Gender;
+import org.generations.population.exceptions.IncompatibleCharacteristicsException;
+import org.generations.population.exceptions.IncompatibleGenderBreedingException;
 
 /**
  * A class containing information about a single specimen and its genotype.
@@ -181,5 +184,19 @@ public class Specimen {
             desc.append(this.age);
         }
         return desc.toString();
+    }
+    
+    public boolean isMale() {
+        if (genotype == null) return true;
+        return genotype.getGender().equals(Gender.MALE);
+    }
+    
+    public Specimen produceChildWith(Specimen mate) 
+            throws IncompatibleGenderBreedingException,
+            IncompatibleCharacteristicsException {
+        Specimen child = new Specimen();
+        child.setGenotype(
+                Genotype.createChild(this.genotype, mate.getGenotype()));
+        return child;
     }
 }

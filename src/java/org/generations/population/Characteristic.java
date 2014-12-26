@@ -16,8 +16,6 @@
  */
 package org.generations.population;
 
-import org.generations.population.exceptions.IncompatibleCharacteristicsException;
-
 /**
  * A class containing information about a single characteristic.
  * There can be many types of characteristics, e.g. colour, texture, height.

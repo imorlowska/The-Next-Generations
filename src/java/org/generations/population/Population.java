@@ -24,24 +24,32 @@ import java.util.List;
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class Population {
-    private List<Specimen> population;
+    private List<Specimen> females;
+    private List<Specimen> males;
     private String name;
     private int ageCycles;
 
     public Population(String name) {
         this.name = name;
-        this.population = new ArrayList<>();
+        this.females = new ArrayList<>();
+        this.males = new ArrayList<>();
         this.ageCycles = 0;
     }
     
     public Population(String name, List<Specimen> population, int ageCycles) {
         this.name = name;
-        this.population = population;
+        for (Specimen s : population) {
+            addSpecimen(s);
+        }
         this.ageCycles = ageCycles;
     }
     
-    public void addSpecimen(Specimen specimen) {
-        this.population.add(specimen);
+    public void addSpecimen(Specimen s) {
+        if (s.isMale()) {
+                males.add(s);
+            } else {
+                females.add(s);
+            }
     }
     
     /**
@@ -50,25 +58,52 @@ public class Population {
      * @throws IllegalAccessException if specimen not in population
      */
     public void removeSpecimen(Specimen specimen) throws IllegalAccessException {
-        if (this.population.contains(specimen)) {
-            this.population.remove(specimen);
+        if (this.males.contains(specimen)) {
+            this.males.remove(specimen);
+        } if (this.females.contains(specimen)) {
+            this.females.remove(specimen);
         } else {
             throw new IllegalAccessException(specimen.toString() + " does not exist!");
         }
     }
     
     /**
-     * @return the population
+     * @return the females
+     */
+    public List<Specimen> getFemales() {
+        return females;
+    }
+    
+    /**
+     * @return the males
+     */
+    public List<Specimen> getMales() {
+        return males;
+    }
+    
+    /**
+     * @return the whole population
      */
     public List<Specimen> getPopulation() {
+        List<Specimen> population =
+                new ArrayList(females.size() + males.size());
+        population.addAll(females);
+        population.addAll(males);
         return population;
     }
 
     /**
-     * @param population the population to set
+     * @param males the population to set
      */
-    public void setPopulation(List<Specimen> population) {
-        this.population = population;
+    public void setMales(List<Specimen> males) {
+        this.males = males;
+    }
+    
+    /**
+     * @param females the population to set
+     */
+    public void setFemales(List<Specimen> females) {
+        this.females = females;
     }
 
     /**

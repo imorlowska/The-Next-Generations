@@ -39,7 +39,7 @@ import org.generations.population.exceptions.InvalidCustomCharacteristicTypeExce
 public class CustomCharacteristic extends Characteristic {
     private static final Random rand = new Random();
     private String type;
-    private List<String> types;
+    private final List<String> types;
     private Map<Pair<String, String>, List<Pair<String, Integer>>> 
             probabilities;
     
