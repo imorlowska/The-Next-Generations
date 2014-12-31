@@ -116,6 +116,8 @@ public class AlleleCharacteristic extends Characteristic {
         }
         
         AlleleCharacteristic child = new AlleleCharacteristic(this.getName());
+        child.setDominantName(this.dominantName);
+        child.setRecessiveName(this.recessiveName);
         if (rand.nextBoolean()) {
             child.setFirstAllele(this.getFirstAllele());
         } else {

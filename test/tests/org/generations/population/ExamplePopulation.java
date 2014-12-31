@@ -5,8 +5,15 @@
  */
 package tests.org.generations.population;
 
+import org.generations.population.Allele;
+import org.generations.population.AlleleCharacteristic;
+import org.generations.population.Characteristic;
+import org.generations.population.Genotype;
+import org.generations.population.Genotype.Gender;
 import org.generations.population.Population;
 import org.generations.population.Specimen;
+import org.generations.population.exceptions.IncompatibleCharacteristicsException;
+import org.generations.population.exceptions.IncompatibleGenderBreedingException;
 
 /**
  * An example population.
@@ -15,8 +22,9 @@ import org.generations.population.Specimen;
 public class ExamplePopulation {
     public Population population;
     
-    public ExamplePopulation() {
-        population = new Population("Tribbles");
+    public ExamplePopulation() throws IncompatibleGenderBreedingException, 
+            IncompatibleCharacteristicsException {
+        population = new Population("Tribbles2");
         
         Specimen.setAverageLifeExp(5);
         
@@ -24,20 +32,24 @@ public class ExamplePopulation {
         Specimen s2 = Specimen.createSpecimen().setLifeExp(6);
         Specimen s3 = Specimen.createSpecimen();
         
+        AlleleCharacteristic c1 = new AlleleCharacteristic("test");
+        c1.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+        c1.setDominantName("Dom");
+        c1.setRecessiveName("Rec");
+        
+        Genotype g1 = new Genotype(Gender.FEMALE);
+        g1.addCharacteristic(c1);
+        s1.setGenotype(g1);
+        
+        Genotype g2 = new Genotype(Gender.MALE);
+        g2.addCharacteristic(c1);
+        s2.setGenotype(g2);
+
+        Specimen s4 = s1.produceChildWith(s2);
+        
         population.addSpecimen(s1);
         population.addSpecimen(s2);
         population.addSpecimen(s3);
-    }
-    
-    public String print() {
-        StringBuilder desc = new StringBuilder();
-        desc.append("Population: ");
-        desc.append(population.getName());
-        desc.append("\nSpecimen: \n");
-        for (Specimen s : population.getPopulation()) {
-            desc.append(s.toStringDetailed());
-            desc.append("\n");
-        }
-        return desc.toString();
+        population.addSpecimen(s4);
     }
 }

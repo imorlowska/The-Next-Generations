@@ -16,7 +16,6 @@
  */
 package org.generations.population;
 
-import com.sun.istack.Nullable;
 import org.generations.population.Genotype.Gender;
 import org.generations.population.exceptions.IncompatibleCharacteristicsException;
 import org.generations.population.exceptions.IncompatibleGenderBreedingException;
@@ -114,7 +113,6 @@ public class Specimen {
         return this.lifeExp;
     }
     
-    @Nullable
     public Genotype getGenotype() {
         return this.genotype;                
     }

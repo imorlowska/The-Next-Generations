@@ -80,17 +80,6 @@ public class Population {
     public List<Specimen> getMales() {
         return males;
     }
-    
-    /**
-     * @return the whole population
-     */
-    public List<Specimen> getPopulation() {
-        List<Specimen> population =
-                new ArrayList(females.size() + males.size());
-        population.addAll(females);
-        population.addAll(males);
-        return population;
-    }
 
     /**
      * @param males the population to set
@@ -132,5 +121,9 @@ public class Population {
      */
     public void setAgeCycles(int ageCycles) {
         this.ageCycles = ageCycles;
+    }
+    
+    public int getTestValue() {
+        return 42;
     }
 }

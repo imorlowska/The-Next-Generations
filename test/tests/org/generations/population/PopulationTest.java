@@ -5,6 +5,11 @@
  */
 package tests.org.generations.population;
 
+import org.generations.population.AlleleCharacteristic;
+import org.generations.population.Characteristic;
+import org.generations.population.exceptions.IncompatibleCharacteristicsException;
+import org.generations.population.exceptions.IncompatibleGenderBreedingException;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -35,24 +40,32 @@ public class PopulationTest {
     @After
     public void tearDown() {
     }
-
-    @Test
-    public void populationPrintTest() {
+    
+    /**@Test
+    public void writerTest() throws IncompatibleGenderBreedingException,
+            IncompatibleCharacteristicsException {
         ExamplePopulation pop = new ExamplePopulation();
-        assertEquals(pop.print(), 
-                "Population: Tribbles\n" +
-                "Specimen: \n" +
-                "Specimen # 1\n" +
-                "Status: alive\n" +
-                "Age: 0\n" +
-                "ETTL: 4\n" +
-                "Specimen # 2\n" +
-                "Status: alive\n" +
-                "Age: 0\n" +
-                "ETTL: 6\n" +
-                "Specimen # 3\n" +
-                "Status: alive\n" +
-                "Age: 0\n" +
-                "ETTL: 5\n");
+        JSONObject jsonObject = new JSONObject(pop.population);
+        System.out.println("Population:" + jsonObject.toString());
+    }**/
+    
+    @Test
+    public void genderCrossTest() throws IncompatibleCharacteristicsException {
+        AlleleCharacteristic female = AlleleCharacteristic.FEMALE;
+        AlleleCharacteristic male = AlleleCharacteristic.MALE;
+        
+        int females = 0;
+        int males = 0;
+        for (int i = 0; i < 10000; ++i) {
+            AlleleCharacteristic child =
+                    (AlleleCharacteristic) female.produceChildWith(male);
+            if (child.isDominant()) {
+                ++males;
+            } else {
+                ++ females;
+            }
+        }
+        System.out.println("Females: " + females);
+        System.out.println("Males: " + males);
     }
 }

@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.generations.file;
-
+        
 /**
  *
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class Writer {
-    
 }
