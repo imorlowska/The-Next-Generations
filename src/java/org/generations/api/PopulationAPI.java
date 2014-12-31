@@ -39,14 +39,12 @@ public class PopulationAPI {
     @GET
     @Produces("application/json")
     public String getJson() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
+        return "{\"hello\": \"world\"}";
     }
 
     /**
      * PUT method for updating or creating an instance of PopulationAPI
      * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
      */
     @PUT
     @Consumes("application/json")

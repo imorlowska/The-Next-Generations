@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tests.org.generations.population;
 
 import org.generations.population.AlleleCharacteristic;
-import org.generations.population.Characteristic;
 import org.generations.population.exceptions.IncompatibleCharacteristicsException;
 import org.generations.population.exceptions.IncompatibleGenderBreedingException;
 import org.json.JSONObject;
@@ -15,7 +9,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -41,13 +34,13 @@ public class PopulationTest {
     public void tearDown() {
     }
     
-    /**@Test
+    /*@Test
     public void writerTest() throws IncompatibleGenderBreedingException,
             IncompatibleCharacteristicsException {
         ExamplePopulation pop = new ExamplePopulation();
         JSONObject jsonObject = new JSONObject(pop.population);
         System.out.println("Population:" + jsonObject.toString());
-    }**/
+    }*/
     
     @Test
     public void genderCrossTest() throws IncompatibleCharacteristicsException {
@@ -67,5 +60,13 @@ public class PopulationTest {
         }
         System.out.println("Females: " + females);
         System.out.println("Males: " + males);
+    }
+    
+    @Test
+    public void jsonTest() throws IncompatibleGenderBreedingException,
+            IncompatibleCharacteristicsException {
+        ExamplePopulation pop = new ExamplePopulation();
+        JSONObject o = new JSONObject(pop.population);
+        System.out.println(o.toString());
     }
 }
