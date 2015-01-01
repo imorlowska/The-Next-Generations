@@ -16,10 +16,50 @@
  */
 package org.generations.file;
 
+import org.generations.population.Genotype;
+import org.generations.population.Genotype.Gender;
+import org.generations.population.Population;
+import org.generations.population.Specimen;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
- *
+ * Parses a JSON into a Population or a Specimen.
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class Reader {
-    
+    public Population parseJSON2Population(String jsonString) {
+        JSONObject json = new JSONObject(jsonString);
+        
+        Population population = new Population(json.getString("name"));
+        population.setAgeCycles(json.getInt("ageCycles"));
+        
+        JSONArray malesArray = json.getJSONArray("males");
+        for (int i = 0; i < malesArray.length(); ++i) {
+            JSONObject sObject = malesArray.getJSONObject(i);
+            Genotype g = new Genotype(Gender.MALE);
+            Specimen specimen = Specimen.createSpecimen()
+                    .setAge(sObject.getInt("age"))
+                    .setLifeExp(sObject.getInt("lifeExp"))
+                    .setSpecimenID(sObject.getLong("specimenID"))
+                    .setGenotype(g)
+                    .setIsAlive(sObject.getBoolean("alive"));
+            population.addSpecimen(specimen);
+        }
+        
+        JSONArray femalesArray = json.getJSONArray("females");
+        for (int i = 0; i < femalesArray.length(); ++i) {
+            JSONObject sObject = femalesArray.getJSONObject(i);
+            Genotype g = new Genotype(Gender.FEMALE);
+            Specimen specimen = Specimen.createSpecimen()
+                    .setAge(sObject.getInt("age"))
+                    .setLifeExp(sObject.getInt("lifeExp"))
+                    .setSpecimenID(sObject.getLong("specimenID"))
+                    .setGenotype(g)
+                    .setIsAlive(sObject.getBoolean("alive"));
+            population.addSpecimen(specimen);
+        }
+        
+        return population;
+    }
 }

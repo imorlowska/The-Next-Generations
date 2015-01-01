@@ -75,6 +75,11 @@ public class Specimen {
         this.genotype = genotype;
         return this;
     }
+    
+    public Specimen setIsAlive(boolean alive) {
+        this.alive = alive;
+        return this;
+    }
     /////////////////////////////////// STATIC SETTERS ///////////////////////////////////////////
     /**
      * Should only be called if reading a whole population.
@@ -115,6 +120,10 @@ public class Specimen {
     
     public Genotype getGenotype() {
         return this.genotype;                
+    }
+    
+    public boolean isAlive() {
+        return alive;
     }
     /////////////////////////////////// STATIC GETTERS ///////////////////////////////////////////
     public static long getSpecimenNumberToDate() {
