@@ -1,12 +1,7 @@
 $(document).ready(function() {
     var baseURL = "webresources/api";
     console.log(baseURL);
-    $.getJSON(baseURL, function(data) {        
-        alert('k');
-        console.log(data);
-        alert('drawing');
-        draw(data);        
-    });
+    $.getJSON(baseURL, draw);
 });
 
 var draw = function(obj) {
@@ -25,7 +20,7 @@ var draw_table = function(obj) {
     var tableBody = document.createElement('TBODY');
     table.border = '1';
     table.appendChild(tableBody);
-    var headings = ['id', 'dead', 'gender', 'age', 'life expectancy'];
+    var headings = ['id', 'alive', 'gender', 'age', 'life expectancy'];
 
     var tr = document.createElement('TR');
     tableBody.appendChild(tr);
