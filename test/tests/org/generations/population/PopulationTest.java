@@ -1,5 +1,6 @@
 package tests.org.generations.population;
 
+import org.generations.examples.ExamplePopulation;
 import org.generations.population.AlleleCharacteristic;
 import org.generations.population.exceptions.IncompatibleCharacteristicsException;
 import org.generations.population.exceptions.IncompatibleGenderBreedingException;

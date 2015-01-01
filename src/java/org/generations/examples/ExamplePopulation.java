@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.org.generations.population;
+package org.generations.examples;
 
 import org.generations.population.Allele;
 import org.generations.population.AlleleCharacteristic;

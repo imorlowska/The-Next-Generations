@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Demo</title>
+        <meta charset="utf-8">
+        <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'/> 
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+        <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+        <script src="Chart.js"></script>
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <h1>The Next Generations<h1>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row" id="controls">
+                <div class="col-sm-4">
+                    <button>Next</button>
+                </div>
+            </div>
+            <div class="row" id="population-details">
+                <h2 id="title">Population name:</h2>
+            </div>
+            <div class="row" id="population-details">
+                <div class="col-sm-6">
+                    <h3>Genders</h3>
+                    <canvas id="gender_chart" width="400" height="400"></canvas>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Line Chart</h3>
+                    <canvas id="line_chart" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <div class="row" id="population-details">
+                <div class="col-sm-6">
+                    <h3>Population overview</h3>
+                    <div id='tab' class='table'></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

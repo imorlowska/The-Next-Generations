@@ -14,6 +14,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
+import org.generations.examples.ExamplePopulation;
+import org.generations.population.exceptions.IncompatibleCharacteristicsException;
+import org.generations.population.exceptions.IncompatibleGenderBreedingException;
+import org.json.JSONObject;
 
 /**
  * REST Web Service
@@ -35,11 +39,17 @@ public class PopulationAPI {
     /**
      * Retrieves representation of an instance of org.generations.api.PopulationAPI
      * @return an instance of java.lang.String
+     * @throws org.generations.population.exceptions.IncompatibleGenderBreedingException
+     * @throws org.generations.population.exceptions.IncompatibleCharacteristicsException
      */
     @GET
     @Produces("application/json")
-    public String getJson() {
-        return "{\"hello\": \"world\"}";
+    public String getJson() throws IncompatibleGenderBreedingException,
+            IncompatibleCharacteristicsException {
+        ExamplePopulation pop = new ExamplePopulation();
+        JSONObject popObject = new JSONObject(pop.population);
+        return popObject.toString();
+        //return "{\"testValue\":42,\"ageCycles\":100,\"name\":\"Tribbles2\"}";
     }
 
     /**
