@@ -1,4 +1,22 @@
 $(document).ready(function() {
+    $('#pause_button').hide();
+   
+    $('#play_button').click(function(e) {
+        $('#play_button').hide();
+        $('#pause_button').show();    
+    });
+    
+    $('#pause_button').click(function(e) {
+        $('#pause_button').hide();
+        $('#play_button').show();
+    });
+    
+    $('#next_button').click(function(e) {
+        $('#pause_button').hide();
+        $('#play_button').show();
+        console.log('whooooooooah');
+    });
+    
     var baseURL = "webresources/api";
     console.log(baseURL);
     $.getJSON(baseURL, draw);
