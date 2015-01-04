@@ -1,4 +1,43 @@
 $(document).ready(function() {
+    //$('#intro_container').hide();
+    $('#stats_container').hide();
+    $('#create_population_container').hide();
+});
+
+var init_intro = function() {
+    $('#intro_main').hide();
+
+    $('#population_nav').click = function() {
+        $('#intro_main').hide();
+        $('#population_nav_contents').show();
+    }
+};
+
+var add_to_characteristic_list = function() {
+    var name = $('#characteristic_name').value;
+    // etc!
+
+    list_item = "!!! " + name;
+
+    list = $('#characteristic_list');
+    list.appendChild(list_item);
+    // Copy the form data into a global variable
+    
+    // Create global variable if doesn't exist
+    // TODO test if this works
+    if (type(window.characteristic_list_details) === 'undefined') {
+        window.characteristic_list_details = [];
+    }
+    // FIXME real JS list append
+    // Create JS object to hold all data
+    some_js_object = {
+        name: name
+    }
+    // Append object to global list 
+    window.characteristic_list_details.append(some_js_object);
+};
+
+var show_stats = function() {
     $('#pause_button').hide();
    
     $('#play_button').click(function(e) {
@@ -14,13 +53,13 @@ $(document).ready(function() {
     $('#next_button').click(function(e) {
         $('#pause_button').hide();
         $('#play_button').show();
-        console.log('whooooooooah');
     });
     
     var baseURL = "webresources/api";
     console.log(baseURL);
     $.getJSON(baseURL, draw);
-});
+    $('#stats_container').show();
+};
 
 var draw = function(obj) {
     console.log(obj.name);
@@ -50,7 +89,6 @@ var draw_table = function(obj) {
     }
     
     var add_specimen_to_table = function(specimen) {
-        console.log('yo');
         var tr = document.createElement('TR');
         // Specimen ID
         var td = document.createElement('TD');
