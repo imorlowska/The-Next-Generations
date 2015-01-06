@@ -1,4 +1,43 @@
 $(document).ready(function() {
+    //$('#intro_main').hide();
+    $('#stats_container').hide();
+    $('#create_new_population_content').hide();
+});
+
+var init_intro = function() {
+    $('#intro_main').hide();
+
+    $('#population_nav').click = function() {
+        $('#intro_main').hide();
+        $('#population_nav_contents').show();
+    }
+};
+
+var add_to_characteristic_list = function() {
+    var name = $('#characteristic_name').value;
+    // etc!
+
+    list_item = name;
+
+    list = $('#characteristic_list');
+    list.appendChild(list_item);
+    // Copy the form data into a global variable
+    
+    // Create global variable if doesn't exist
+    // TODO test if this works
+    if (typeof window.characteristic_list_details === 'undefined') {
+        window.characteristic_list_details = [];
+    }
+    // FIXME real JS list append
+    // Create JS object to hold all data
+    some_js_object = {
+        name: name
+    }
+    // Append object to global list 
+    window.characteristic_list_details.push(some_js_object);
+};
+
+var init_stats = function() {
     $('#pause_button').hide();
    
     $('#play_button').click(function(e) {
@@ -14,15 +53,15 @@ $(document).ready(function() {
     $('#next_button').click(function(e) {
         $('#pause_button').hide();
         $('#play_button').show();
-        console.log('whooooooooah');
     });
     
     var baseURL = "webresources/api";
     console.log(baseURL);
-    $.getJSON(baseURL, draw);
-});
+    $.getJSON(baseURL, draw_stats);
+    $('#stats_container').show();
+};
 
-var draw = function(obj) {
+var draw_stats = function(obj) {
     console.log(obj.name);
     $('#title')[0].innerHTML = "Population name: " + obj.name;
     draw_table(obj);
@@ -32,6 +71,9 @@ var draw = function(obj) {
 
 var draw_table = function(obj) {
     var myTableDiv = document.getElementById("tab");
+    if (myTableDiv.children.length > 0) {
+        myTableDiv.removeChild(myTableDiv.firstChild);
+    }
     var table = document.createElement('TABLE');
     table.setAttribute('class', 'table table-striped table-hover');
     table.class = 'table';
@@ -49,12 +91,11 @@ var draw_table = function(obj) {
         tr.appendChild(th);
     }
     
-    var add_specimen_to_table = function(specimen) {
-        console.log('yo');
+    var add_specimen_to_table = function(specimen, specimenID) {
         var tr = document.createElement('TR');
         // Specimen ID
         var td = document.createElement('TD');
-        td.appendChild(document.createTextNode(specimen.specimenID));
+        td.appendChild(document.createTextNode(specimenID));
         tr.appendChild(td);
         // Alive?
         var td = document.createElement('TD');
@@ -78,11 +119,11 @@ var draw_table = function(obj) {
     };
 
     for (i = 0; i < obj.males.length; i++) {
-        add_specimen_to_table(obj.males[i]);
+        add_specimen_to_table(obj.males[i], i);
     }
 
     for (i = 0; i < obj.females.length; i++) {
-        add_specimen_to_table(obj.females[i]);
+        add_specimen_to_table(obj.females[i], obj.males.length + i);
     }
 
     myTableDiv.appendChild(table);
@@ -135,7 +176,7 @@ var draw_gender_pie_chart = function(males, females) {
         }
     ];
     var ctx = $("#gender_chart").get(0).getContext("2d");
-    var myNewChart = new Chart(ctx).Doughnut(data, chart_options);
+    new Chart(ctx).Doughnut(data, chart_options);
 };
 
 chart_options = {
