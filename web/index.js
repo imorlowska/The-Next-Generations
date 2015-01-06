@@ -17,19 +17,22 @@ var init_intro = function() {
         $('#create_2').hide();
         $('#create_3').hide();
     });
-    $('#population_button_1').click(function() {
+    $('#population_button_1').click(function(event) {
+        event.preventDefault();
         // TODO validate and process input
         //$('#create_1').hide();
         $('#create_2').show();
         //$('#create_3').hide();
     });
-    $('#population_button_2').click(function() {
+    $('#population_button_2').click(function(event) {
+        event.preventDefault();
         // TODO validate and process input
         //$('#create_1').hide();
         //$('#create_2').show();
         $('#create_3').show();
     });
-    $('#population_button_3').click(function() {
+    $('#population_button_3').click(function(event) {
+        event.preventDefault();
         // TODO validate and process input
         //$('#create_1').hide();
         //$('#create_2').hide();
@@ -38,7 +41,8 @@ var init_intro = function() {
     });
 };
 
-var add_to_characteristic_list = function() {
+var add_to_characteristic_list = function(event) {
+    event.preventDefault();
     var name = $('#characteristic_name').value;
     // etc!
 
