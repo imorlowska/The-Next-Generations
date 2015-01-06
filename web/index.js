@@ -2,15 +2,40 @@ $(document).ready(function() {
     //$('#intro_main').hide();
     $('#stats_container').hide();
     $('#create_new_population_content').hide();
+    init_intro();
 });
 
 var init_intro = function() {
-    $('#intro_main').hide();
-
-    $('#population_nav').click = function() {
+    console.log('init intro');
+    $('#new_population_button').click(function() {
+        console.log('init intro');
+        // Hide intro page
         $('#intro_main').hide();
-        $('#population_nav_contents').show();
-    }
+        // Show 'new population' page
+        $('#create_new_population_content').show();
+        $('#create_1').show();
+        $('#create_2').hide();
+        $('#create_3').hide();
+    });
+    $('#population_button_1').click(function() {
+        // TODO validate and process input
+        //$('#create_1').hide();
+        $('#create_2').show();
+        //$('#create_3').hide();
+    });
+    $('#population_button_2').click(function() {
+        // TODO validate and process input
+        //$('#create_1').hide();
+        //$('#create_2').show();
+        $('#create_3').show();
+    });
+    $('#population_button_3').click(function() {
+        // TODO validate and process input
+        //$('#create_1').hide();
+        //$('#create_2').hide();
+        alert('do something with stats now...');
+        init_stats();
+    });
 };
 
 var add_to_characteristic_list = function() {
@@ -38,6 +63,19 @@ var add_to_characteristic_list = function() {
 };
 
 var init_stats = function() {
+    // Hide other sections
+    $('#intro_main').hide();
+    $('#create_new_population_content').hide();
+
+    // Init controls
+    init_controls();
+   
+    var baseURL = "webresources/api";
+    $.getJSON(baseURL, draw_stats);
+    $('#stats_container').show();
+};
+
+var init_controls = function() {
     $('#pause_button').hide();
    
     $('#play_button').click(function(e) {
@@ -54,11 +92,6 @@ var init_stats = function() {
         $('#pause_button').hide();
         $('#play_button').show();
     });
-    
-    var baseURL = "webresources/api";
-    console.log(baseURL);
-    $.getJSON(baseURL, draw_stats);
-    $('#stats_container').show();
 };
 
 var draw_stats = function(obj) {
