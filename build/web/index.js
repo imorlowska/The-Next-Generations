@@ -2,25 +2,62 @@ $(document).ready(function() {
     //$('#intro_main').hide();
     $('#stats_container').hide();
     $('#create_new_population_content').hide();
+    init_intro();
 });
 
 var init_intro = function() {
-    $('#intro_main').hide();
-
-    $('#population_nav').click = function() {
+    console.log('init intro');
+    $('#new_population_button').click(function() {
+        console.log('init intro');
+        // Hide intro page
         $('#intro_main').hide();
-        $('#population_nav_contents').show();
-    }
+        // Show 'new population' page
+        $('#create_new_population_content').show();
+        $('#create_1').show();
+        $('#create_2').hide();
+        $('#create_3').hide();
+    });
+    $('#population_button_1').click(function(event) {
+        event.preventDefault();
+        // TODO validate and process input
+        //$('#create_1').hide();
+        $('#create_2').show();
+        //$('#create_3').hide();
+    });
+    $('#population_button_2').click(function(event) {
+        event.preventDefault();
+        // TODO validate and process input
+        //$('#create_1').hide();
+        //$('#create_2').show();
+        $('#create_3').show();
+    });
+    $('#population_button_3').click(function(event) {
+        event.preventDefault();
+        // TODO validate and process input
+        //$('#create_1').hide();
+        //$('#create_2').hide();
+        alert('do something with stats now...');
+        init_stats();
+    });
+    $('#add_characteristic_button').click(function(event) {
+        event.preventDefault();
+        add_to_characteristic_list(event);
+    })
 };
 
-var add_to_characteristic_list = function() {
-    var name = $('#characteristic_name').value;
-    // etc!
+var add_to_characteristic_list = function(event) {
+    event.preventDefault();
+    // $('#characteristic_name').value didn't work for some reason... investigate
+    var name = document.getElementById('characteristic_name').value;
+    var dominant_name = document.getElementById('dominant_name').value;
+    var recessive_name = document.getElementById('recessive_name').value;
+    
+    console.log('adding: ' + name + ', ' + dominant_name + ', ' + recessive_name);
 
-    list_item = name;
-
+    list_item = '<tr><td>' + name + '</td><td>' + dominant_name + '</td><td>' + recessive_name + '</td></tr>';
     list = $('#characteristic_list');
-    list.appendChild(list_item);
+    console.log(list_item);
+    list.append(list_item);
     // Copy the form data into a global variable
     
     // Create global variable if doesn't exist
@@ -31,13 +68,30 @@ var add_to_characteristic_list = function() {
     // FIXME real JS list append
     // Create JS object to hold all data
     some_js_object = {
-        name: name
-    }
+        name: name,
+        dom_name: dominant_name,
+        rec_name: recessive_name
+    };
+    console.log(some_js_object);
     // Append object to global list 
     window.characteristic_list_details.push(some_js_object);
+    console.log(window.characteristic_list_details);
 };
 
 var init_stats = function() {
+    // Hide other sections
+    $('#intro_main').hide();
+    $('#create_new_population_content').hide();
+
+    // Init controls
+    init_controls();
+   
+    var baseURL = "webresources/api";
+    $.getJSON(baseURL, draw_stats);
+    $('#stats_container').show();
+};
+
+var init_controls = function() {
     $('#pause_button').hide();
    
     $('#play_button').click(function(e) {
@@ -54,11 +108,6 @@ var init_stats = function() {
         $('#pause_button').hide();
         $('#play_button').show();
     });
-    
-    var baseURL = "webresources/api";
-    console.log(baseURL);
-    $.getJSON(baseURL, draw_stats);
-    $('#stats_container').show();
 };
 
 var draw_stats = function(obj) {

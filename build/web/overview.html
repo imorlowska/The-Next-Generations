@@ -30,22 +30,16 @@
                         <div class=col-sm-4>
                             <div class="panel panel-success" id="population_nav_contents">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Population</h3>
+                                    <div class="text-center">
+                                        <h3 class="panel-title">Population</h3>
+                                    </div>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <button class='btn btn-success'>See example</button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <button class='btn btn-info'>Create new population</button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <button class='btn btn-warning'>Load previous game</button>
+                                    <div class="text-center">
+                                        <div class="btn-group-vertical" role="group">
+                                            <button class='btn btn-default'>See example</button>
+                                            <button class='btn btn-default' id='new_population_button'>Create new population</button>
+                                            <button class='btn btn-default'>Load previous population</button>
                                         </div>
                                     </div>
                                 </div>
@@ -54,30 +48,34 @@
 
                         <div class=col-sm-4>
                             <div class="panel panel-info" id="characteristic_nav_contents">
-                                <div class="panel-heading">
+                                <div class="panel-heading text-center">
                                     <h3 class="panel-title">Characteristic</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <ul>
-                                        <button class='btn btn-default'>See example</button>
-                                        <button class='btn btn-default'>Create new characteristic</button>
-                                        <button class='btn btn-default'>Load previous characteristic</button>
-                                    </ul>
+                                    <div class="text-center">
+                                        <div class="btn-group-vertical" role="group">
+                                            <button class='btn btn-default'>See example</button>
+                                            <button class='btn btn-default'>Create new characteristic</button>
+                                            <button class='btn btn-default'>Load previous characteristic</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class=col-sm-4>
                             <div class="panel panel-danger" id="offspring_nav">
-                                <div class="panel-heading">
+                                <div class="panel-heading text-center">
                                     <h3 class="panel-title">Offspring generator</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <ul>
-                                        <button class='btn btn-default'>See example</button>
-                                        <button class='btn btn-default'>Create new experiment</button>
-                                        <button class='btn btn-default'>Load previous offspring</button>
-                                    </ul>
+                                    <div class="text-center">
+                                        <div class="btn-group-vertical" role="group">
+                                            <button class='btn btn-default'>See example</button>
+                                            <button class='btn btn-default'>Create new experiment</button>
+                                            <button class='btn btn-default'>Load previous offspring</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -86,104 +84,150 @@
                     <div id="create_new_population_content">
                         <h3>Create new population</h3>
 
-                        <div class="col-sm-4" id="create_1">
-                            <h4>Step 1: Basic details</h4>
-                            <form role="form" class="form form-default">
-                                <div class="form-group">
-                                    <label for="my_form">Population name</label>
-                                    <input type="text" class="form-control" id="population_form_name" placeholder="Tribbles"/>
+                        <div class="col-sm-4">
+                            <div class="panel panel-default" id="create_1">
+                                <div class="panel-heading text-center">
+                                    <h4>Step 1: Basic details</h4>
                                 </div>
-                                <div class="form-group">
-                                    <label for="my_form">Average life expectancy (years)</label>
-                                    <input type="number" class="form-control" step="1" id="population_form_exp" placeholder="0"/>
+                                <div class="panel-body">
+                                    <form role="form" class="form form-default">
+                                        <div class="form-group">
+                                            <label for="my_form">Population name</label>
+                                            <input type="text" class="form-control" id="population_form_name" placeholder="Tribbles"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="my_form">Average life expectancy (years)</label>
+                                            <input type="number" class="form-control" step="1" id="population_form_exp" placeholder="0"/>
+                                        </div>
+                                        <button id="population_button_1" action="" class="btn btn-success">Next</button>
+                                    </form>
                                 </div>
-                                <button id="population_button_1" type="submit" class="btn btn-success">Next</button>
-                            </form>
+                            </div>
                         </div>
 
-                        <div class="col-sm-4" id="create_2">
-                            <h4>Step 2: Define characteristics</h4>
-                            <div id="characteristic_form">
-                                <form role="form" class="form form-default">
-                                    <div class="form-group">
-                                        <label for="characteristic_name">Characteristic name</label>
-                                        <input type="text" class="form-control" id="characteristic_name" placeholder="Hair colour"/>
-                                    </div>
+                        <div class="col-sm-4">
+                            <div class="panel panel-default" id="create_2">
+                                <div class="panel-heading text-center">
+                                    <h4>Step 2: Define characteristics</h4>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label for="characteristic_type">Type</label>
-                                        <br/>
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-primary active">
-                                                <input type="radio" name="options" id="option1" autocomplete="off" checked>2-allel</input>
-                                            </label>
-                                            <label class="btn btn-primary disabled">
-                                                <input type="radio" name="options" id="option2" autocomplete="off">Custom</input>
-                                            </label>
+                                <div class="panel-body" id="characteristic_form">
+                                    <form role="form" class="form form-default">
+                                        <div class="form-group">
+                                            <label for="characteristic_name">Characteristic name</label>
+                                            <input type="text" class="form-control" id="characteristic_name" placeholder="Hair colour"/>
                                         </div>
-                                    </div>
- 
-                                    </div>
 
-                                    <div class="form-group">
-                                        <label for="dominant_name">Dominant name</label>
-                                        <input type="text" class="form-control" id="dominant_name" placeholder="Brown"/>
-                                    </div>
+                                        <div class="form-group">
+                                            <label for="characteristic_type">Type</label>
+                                            <br/>
+                                            <div class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary active">
+                                                    <input type="radio" name="options" id="option1" autocomplete="off" checked>2-allel</input>
+                                                </label>
+                                                <label class="btn btn-primary disabled">
+                                                    <input type="radio" name="options" id="option2" autocomplete="off">Custom</input>
+                                                </label>
+                                            </div>
+                                        </div>
+    
+                                        <div class="form-group">
+                                            <label for="dominant_name">Dominant name</label>
+                                            <input type="text" class="form-control" id="dominant_name" placeholder="Brown"/>
+                                        </div>
 
-                                    <div class="form-group">
-                                        <label for="recessive_name">Recessive name</label>
-                                        <input type="text" class="form-control" id="recessive_name" placeholder="Blonde"/>
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Add characteristic</button>
+                                        <div class="form-group">
+                                            <label for="recessive_name">Recessive name</label>
+                                            <input type="text" class="form-control" id="recessive_name" placeholder="Blonde"/>
+                                        </div>
+                                        <button action="" class="btn btn-default" id='add_characteristic_button'>Add characteristic</button>
 
-                                    <button type="submit" class="btn btn-success">Next</button>
-                                </form>
-                            
-                                <h5>Current characteristics:</h5>
-                                <ul id="characteristic_list">
-                                </ul>
+                                    </form>
+                                
+                                    <h5>Current characteristics:</h5>
+                                    <table id="characteristic_list" class='table'>
+                                        <tr>
+                                            <td>Characteristic</td>
+                                            <td>Dominant</td>
+                                            <td>Recessive</td>
+                                        </tr>
+                                    </table>
+
+                                    <button action="" class="btn btn-success" id='population_button_2'>Next</button>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="col-sm-4" id="create_3">
-                            <h4>Step 3: Define specimen</h4>
-                            <form role="form" class="form form-default">
-
-                                <div class="form-group">
-                                    <label for="specimen_gender">Gender</label>
-                                    <br/>
-                                    <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-primary active">
-                                            <input type="radio" name="options" id="option1" autocomplete="off" checked>Male</input>
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" id="option2" autocomplete="off">Female</input>
-                                        </label>
-                                    </div>
+                        <div class="col-sm-4">
+                            <div class="panel panel-default" id="create_3">
+                                <div class="panel-heading">
+                                    <h4>Step 3: Define specimen</h4>
                                 </div>
-        
-                                <h5>User-defined characteristics:</h5>
+                                <form role="form" class="form form-default">
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label for="specimen_gender">Gender</label>
+                                            <br/>
+                                            <div class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-primary active">
+                                                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Male</input>
+                                                </label>
+                                                <label class="btn btn-primary">
+                                                    <input type="radio" name="options" id="option2" autocomplete="off">Female</input>
+                                                </label>
+                                            </div>
+                                        </div>
+                
+                                        <h5>User-defined characteristics:</h5>
 
-                                <div class="form-group">
-                                    <label for="specimen_gender">Placeholder</label>
-                                    <br/>
-                                    <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn btn-primary active">
-                                        <input type="radio" name="options" id="option1" autocomplete="off" checked>Option 1</input>
-                                    </label>
-                                    <label class="btn btn-primary">
-                                        <input type="radio" name="options" id="option2" autocomplete="off">Option 2</input>
-                                    </label>
+                                        <div class="form-group">
+                                            <label for="specimen_gender">Placeholder</label>
+                                            <br/>
+                                            <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-primary active">
+                                                <input type="radio" name="options" id="option1" autocomplete="off" checked>Option 1</input>
+                                            </label>
+                                            <label class="btn btn-primary">
+                                                <input type="radio" name="options" id="option2" autocomplete="off">Option 2</input>
+                                            </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <button action="" class="btn btn-default">Add specimen</button>
+                                            </div>
+                                        </div>
+
+                                        <h5>Current specimen:</h5>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <table class="table table-default" id="Specimens">
+                                                    <th>
+                                                        <td>Gender</td>
+                                                        <td>Male</td>
+                                                        <td>Female</td>
+                                                    </th>
+                                                    <tr>
+                                                        <td>Test</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+
+
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <button action="" class="btn btn-success" id='population_button_3'>Begin simulation!</button>
+                
                                     </div>
-                                </div>
-
-                                <button type="submit" class="btn btn-default">Add specimen</button>
-                                <button type="submit" class="btn btn-success">Begin simulation!</button>
-        
-                            </form>
+                                </form>
+                            </div>
                         </div>
-
                     </div>
-                </div>
                 </div>
 
                 <!--
@@ -202,7 +246,6 @@
                             <button type="button" class="btn btn-default"  id="next_button" aria-label="Left Align">
                                 <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
                             </button>
-                            <aside>spodnie</aside>
                         </div>
                     </div>
                     <div class="row">
