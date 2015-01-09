@@ -100,7 +100,7 @@
                                             <label for="my_form">Average life expectancy (years)</label>
                                             <input type="number" class="form-control" step="1" id="population_form_exp" placeholder="0"/>
                                         </div>
-                                        <button id="population_button_1" action="" class="btn btn-success">Next</button>
+                                        <button id="population_button_1" class="btn btn-success">Next</button>
                                     </form>
                                 </div>
                             </div>
@@ -124,10 +124,10 @@
                                             <br/>
                                             <div class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary active">
-                                                    <input type="radio" name="options" id="option1" autocomplete="off" checked>2-allel</input>
+                                                    <input type="radio" name="options" id="option1" checked>2-allel</input>
                                                 </label>
                                                 <label class="btn btn-primary disabled">
-                                                    <input type="radio" name="options" id="option2" autocomplete="off">Custom</input>
+                                                    <input type="radio" name="options" id="option2">Custom</input>
                                                 </label>
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@
                                             <label for="recessive_name">Recessive name</label>
                                             <input type="text" class="form-control" id="recessive_name" placeholder="Blonde"/>
                                         </div>
-                                        <button action="" class="btn btn-default" id='add_characteristic_button'>Add characteristic</button>
+                                        <button class="btn btn-default" id='add_characteristic_button'>Add characteristic</button>
 
                                     </form>
                                 
@@ -154,7 +154,7 @@
                                         </tr>
                                     </table>
 
-                                    <button action="" class="btn btn-success" id='population_button_2'>Next</button>
+                                    <button class="btn btn-success" id='population_button_2'>Next</button>
                                 </div>
                             </div>
                         </div>
@@ -171,41 +171,40 @@
                                             <br/>
                                             <div class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary active">
-                                                    <input type="radio" name="options" id="option1" autocomplete="off" checked>Male</input>
+                                                    <input type="radio" name="options" id="male_op" checked>Male</input>
                                                 </label>
                                                 <label class="btn btn-primary">
-                                                    <input type="radio" name="options" id="option2" autocomplete="off">Female</input>
+                                                    <input type="radio" name="options" id="female_op">Female</input>
                                                 </label>
                                             </div>
                                         </div>
-                
-                                        <h5>User-defined characteristics:</h5>
 
-                                        <div class="form-group">
-                                            <label for="specimen_characteristic_form">Placeholder</label>
-                                            <br/>
-                                            <div class="btn-group" data-toggle="buttons">
+                                        <div class="form-group" id="user_characteristics_for_specimen">
+                                            <h5>User-defined characteristics:</h5>
+                                            <table id="user_characteristics_list" class="table">
+                                            </table>
+                                            <!--<div class="btn-group" data-toggle="buttons">
                                             <label class="btn btn-primary active">
-                                                <input type="radio" name="options" id="stronglyDom" autocomplete="off" checked>Strongly dom.</input>
+                                                <input type="radio" name="options" id="stronglyDom" checked>Strongly dom.</input>
                                             </label>
                                             <label class="btn btn-primary">
-                                                <input type="radio" name="options" id="weaklyDom" autocomplete="off">Weakly dom.</input>
+                                                <input type="radio" name="options" id="weaklyDom">Weakly dom.</input>
                                             </label>
                                             <label class="btn btn-primary">
-                                                <input type="radio" name="options" id="Rec" autocomplete="off">Recessive</input>
+                                                <input type="radio" name="options" id="Rec">Recessive</input>
                                             </label>
-                                            </div>
+                                            </div>-->
                                         </div>
 
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <button action="" class="btn btn-default">Add specimen</button>
+                                                <button class="btn btn-default">Add specimen</button>
                                             </div>
                                         </div>
 
                                         <h5>Number of specimen: 0</h5>
 
-                                        <button action="" class="btn btn-success" id='population_button_3'>Begin simulation!</button>
+                                        <button class="btn btn-success" id='population_button_3'>Begin simulation!</button>
                 
                                     </div>
                                 </form>

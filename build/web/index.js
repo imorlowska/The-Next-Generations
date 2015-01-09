@@ -61,19 +61,45 @@ var init_intro = function() {
 
 var fill_characteristics_list = function() {
     console.log('Trying to fill characteristics list for specimen...');
-    
-}
+    if (typeof window.characteristic_list_details === 'undefined') {
+        // no user defined characteristics
+        $('#user_characteristics_for_specimen').hide();
+    } else {
+        var index;
+        var list = window.characteristic_list_details;
+        for (index = 0; index < list.length; ++index) {
+            var name = list[index].name;
+            $('#user_characteristics_list').append(
+                    '<tr><td>' +
+                    '<h5>Name: ' + name + '</h5>' +
+                    '<div class="btn-group" data-toggle="buttons">' +
+                        '<label class="btn btn-primary active">' +
+                            '<input type="radio" name="options" id="'+ name +'_stronglyDom" checked>Strongly dom.</input>' +
+                        '</label>' +
+                        '<label class="btn btn-primary">' +
+                            '<input type="radio" name="options" id="'+ name +'_weaklyDom">Weakly dom.</input>' +
+                        '</label>' +
+                        '<label class="btn btn-primary">' +
+                            '<input type="radio" name="options" id="'+ name +'_Rec">Recessive</input>' +
+                        '</label>' +
+                    '</div>' +
+                    '</td></tr>'
+                    );
+            
+        }
+        console.log($('#user_characteristics_list'));
+    }
+};
+
 var add_to_characteristic_list = function() {
     // $('#characteristic_name').value didn't work for some reason... investigate
     var name = document.getElementById('characteristic_name').value;
     var dominant_name = document.getElementById('dominant_name').value;
     var recessive_name = document.getElementById('recessive_name').value;
     
-    console.log('adding: ' + name + ', ' + dominant_name + ', ' + recessive_name);
 
     list_item = '<tr><td>' + name + '</td><td>' + dominant_name + '</td><td>' + recessive_name + '</td></tr>';
     list = $('#characteristic_list');
-    console.log(list_item);
     list.append(list_item);
     // Copy the form data into a global variable
     
@@ -89,10 +115,8 @@ var add_to_characteristic_list = function() {
         dom_name: dominant_name,
         rec_name: recessive_name
     };
-    console.log(some_js_object);
     // Append object to global list 
     window.characteristic_list_details.push(some_js_object);
-    console.log(window.characteristic_list_details);
 };
 
 var init_stats = function() {
