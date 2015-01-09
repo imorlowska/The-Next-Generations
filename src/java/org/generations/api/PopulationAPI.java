@@ -59,5 +59,14 @@ public class PopulationAPI {
     @PUT
     @Consumes("application/json")
     public void putJson(String content) {
+        
+    }
+    
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    public String postJson(String content) 
+            throws IncompatibleGenderBreedingException, IncompatibleCharacteristicsException {
+        return "{\"receivedData\": " + content + "}";
     }
 }

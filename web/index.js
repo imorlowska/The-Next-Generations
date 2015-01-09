@@ -132,6 +132,30 @@ var init_stats = function() {
     $('#stats_container').show();
 };
 
+var testGET = function() {
+    $.get("webresources/api", function( data ) {
+        console.log("test GET success");
+        console.log(data);
+    });
+};
+
+var testPOST = function() {
+    $.ajax({
+        type: 'POST',
+        url: 'webresources/api',
+        data: formToJSON(),
+        success: function(data) { console.log(data); },
+        contentType: "application/json",
+        dataType: 'json'
+    });
+};
+
+var formToJSON = function () {
+     return JSON.stringify({
+                    "name": "IDK"
+                    }); 
+};
+
 var init_controls = function() {
     $('#pause_button').hide();
    
