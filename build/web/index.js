@@ -61,6 +61,7 @@ var init_intro = function() {
 
 var fill_characteristics_list = function() {
     console.log('Trying to fill characteristics list for specimen...');
+    
 }
 var add_to_characteristic_list = function() {
     // $('#characteristic_name').value didn't work for some reason... investigate
