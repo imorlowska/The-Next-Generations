@@ -15,6 +15,11 @@ var init_intro = function() {
         $('#create_2').hide();
         $('#create_3').hide();
     });
+    $('#example_population_button').click(function() {
+        event.preventDefault();
+        console.log('loading example population...');
+        init_stats();
+    });
     $('#population_button_1').click(function(event) {
         event.preventDefault();
         // TODO validate and process input
