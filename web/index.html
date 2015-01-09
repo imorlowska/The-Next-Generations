@@ -147,7 +147,7 @@
                                     <h5>Current characteristics:</h5>
                                     <table id="characteristic_list" class='table'>
                                         <tr>
-                                            <td>Characteristic</td>
+                                            <td>Characteristic name</td>
                                             <td>Dominant</td>
                                             <td>Recessive</td>
                                         </tr>
@@ -181,14 +181,17 @@
                                         <h5>User-defined characteristics:</h5>
 
                                         <div class="form-group">
-                                            <label for="specimen_gender">Placeholder</label>
+                                            <label for="specimen_characteristic_form">Placeholder</label>
                                             <br/>
                                             <div class="btn-group" data-toggle="buttons">
                                             <label class="btn btn-primary active">
-                                                <input type="radio" name="options" id="option1" autocomplete="off" checked>Option 1</input>
+                                                <input type="radio" name="options" id="stronglyDom" autocomplete="off" checked>Strongly dom.</input>
                                             </label>
                                             <label class="btn btn-primary">
-                                                <input type="radio" name="options" id="option2" autocomplete="off">Option 2</input>
+                                                <input type="radio" name="options" id="weaklyDom" autocomplete="off">Weakly dom.</input>
+                                            </label>
+                                            <label class="btn btn-primary">
+                                                <input type="radio" name="options" id="Rec" autocomplete="off">Recessive</input>
                                             </label>
                                             </div>
                                         </div>
@@ -199,27 +202,7 @@
                                             </div>
                                         </div>
 
-                                        <h5>Current specimen:</h5>
-
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <table class="table table-default" id="Specimens">
-                                                    <th>
-                                                        <td>Gender</td>
-                                                        <td>Male</td>
-                                                        <td>Female</td>
-                                                    </th>
-                                                    <tr>
-                                                        <td>Test</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                        <td>0</td>
-                                                    </tr>
-
-
-                                                </table>
-                                            </div>
-                                        </div>
+                                        <h5>Number of specimen: 0</h5>
 
                                         <button action="" class="btn btn-success" id='population_button_3'>Begin simulation!</button>
                 

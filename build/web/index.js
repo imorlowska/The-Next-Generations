@@ -6,9 +6,7 @@ $(document).ready(function() {
 });
 
 var init_intro = function() {
-    console.log('init intro');
     $('#new_population_button').click(function() {
-        console.log('init intro');
         // Hide intro page
         $('#intro_main').hide();
         // Show 'new population' page
@@ -23,6 +21,7 @@ var init_intro = function() {
         //$('#create_1').hide();
         $('#create_2').show();
         //$('#create_3').hide();
+        document.getElementById("population_button_1").disabled = true;
     });
     $('#population_button_2').click(function(event) {
         event.preventDefault();
@@ -30,6 +29,9 @@ var init_intro = function() {
         //$('#create_1').hide();
         //$('#create_2').show();
         $('#create_3').show();
+        document.getElementById("add_characteristic_button").disabled = true;
+        fill_characteristics_list();
+        document.getElementById("population_button_2").disabled = true;
     });
     $('#population_button_3').click(function(event) {
         event.preventDefault();
@@ -41,12 +43,14 @@ var init_intro = function() {
     });
     $('#add_characteristic_button').click(function(event) {
         event.preventDefault();
-        add_to_characteristic_list(event);
-    })
+        add_to_characteristic_list();
+    });
 };
 
-var add_to_characteristic_list = function(event) {
-    event.preventDefault();
+var fill_characteristics_list = function() {
+    console.log('Trying to fill characteristics list for specimen...');
+}
+var add_to_characteristic_list = function() {
     // $('#characteristic_name').value didn't work for some reason... investigate
     var name = document.getElementById('characteristic_name').value;
     var dominant_name = document.getElementById('dominant_name').value;
