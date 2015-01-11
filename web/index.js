@@ -418,20 +418,31 @@ var draw_line_chart = function(males, females) {
 
 var draw_gender_pie_chart = function(males, females) {
     console.log(males + ', ' + females);
-    var data = [
-        {
-            value: males,
-            color: "#46BFBD",
-            highlight: "#5AD3D1",
-            label: "Male"
-        },
-        {
-            value: females,
-            color:"#F7464A",
-            highlight: "#FF5A5E",
-            label: "Female"
-        }
-    ];
+    if (males + females > 0) {
+        var data = [
+            {
+                value: males,
+                color: "#46BFBD",
+                highlight: "#5AD3D1",
+                label: "Male"
+            },
+            {
+                value: females,
+                color:"#F7464A",
+                highlight: "#FF5A5E",
+                label: "Female"
+            }
+        ];
+    } else {
+        var data = [
+            {
+                value: window.current_population.specimenDead,
+                color: "#E81919",
+                highlight: "#FF0000",
+                label: "All dead"
+            }
+        ];
+    }
     // If chart with old data already exists, destroy it and re-create with new data
     if (typeof window.gender_pie_chart !== 'undefined') {
         window.gender_pie_chart.destroy();
