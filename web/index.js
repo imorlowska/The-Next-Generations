@@ -2,7 +2,7 @@ $(document).ready(function() {
     //$('#intro_main').hide();
     $('#stats_container').hide();
     $('#create_new_population_content').hide();
-    $('#start_over_div').hide();
+    $('#buttons_div').hide();
     init_intro();
 });
 
@@ -15,7 +15,10 @@ var init_intro = function() {
         $('#create_1').show();
         $('#create_2').hide();
         $('#create_3').hide();
-        $('#start_over_div').show();
+        $('#buttons_div').show();
+        $('#next_button').hide();
+        $('#export_button').hide();
+        $('#start_over_button').show();
     });
     $('#example_population_button').click(function(event) {
         event.preventDefault();
@@ -169,9 +172,11 @@ var init_stats = function(is_example) {
     // Hide other sections
     $('#intro_main').hide();
     $('#create_new_population_content').hide();
+    $('#buttons_div').show();
+    $('#next_button').show();
+    $('#export_button').show();
+    $('#start_over_button').show();
 
-    // Init controls
-    init_controls();
     if (is_example) {
         var baseURL = "webresources/api";
         $.getJSON(baseURL, draw_stats);
@@ -203,25 +208,6 @@ var formToJSON = function () {
      return JSON.stringify({
                     "name": "IDK"
                     }); 
-};
-
-var init_controls = function() {
-    $('#pause_button').hide();
-   
-    $('#play_button').click(function(e) {
-        $('#play_button').hide();
-        $('#pause_button').show();    
-    });
-    
-    $('#pause_button').click(function(e) {
-        $('#pause_button').hide();
-        $('#play_button').show();
-    });
-    
-    $('#next_button').click(function(e) {
-        $('#pause_button').hide();
-        $('#play_button').show();
-    });
 };
 
 var draw_stats = function(obj) {

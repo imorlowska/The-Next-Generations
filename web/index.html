@@ -97,7 +97,7 @@
                                             <input type="text" class="form-control" id="population_form_name" placeholder="Tribbles"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="my_form">Average life expectancy (years)</label>
+                                            <label for="my_form">Average life expectancy (mating seasons)</label>
                                             <input type="number" class="form-control" step="1" id="population_form_exp" placeholder="0"/>
                                         </div>
                                         <button id="population_button_1" class="btn btn-success">Next</button>
@@ -206,20 +206,6 @@
                 STATS DIV
                 -->
                 <div id="stats_container">
-                    <div class="row" id="controls">
-                        <div class="col-sm-4">
-                            <h4>Controls</h4>
-                            <button type="button" class="btn btn-default" id="play_button" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-default" id="pause_button" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-                            </button>
-                            <button type="button" class="btn btn-default"  id="next_button" aria-label="Left Align">
-                                <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                    </div>
                     <div class="row">
                         <h2 id="title">Population name:</h2>
                     </div>
@@ -241,18 +227,23 @@
                     </div>
                 </div>
                 
-                
-                <!--
-                Start over button
-                -->
-                <div id='start_over_div'>
-                    <button type="button" class="btn btn-warning pull-right" id="start_over_button">
-                                Start over
-                    </button>
-                    <br><br><br><br><br>
-                </div>
+                <br><br><br><br>
                 <div class="navbar navbar-default navbar-right navbar-fixed-bottom" id="footer">
                     <div class="container pull-right">
+                        <!--
+                Start over button
+                -->
+                        <div class ="navbar-text navbar-left" id='buttons_div'>
+                            <button type="button" class="btn btn-warning pull-right" id="start_over_button">
+                                        Start over
+                            </button>
+                            <button type="button" class='btn btn-info pull-right' id='next_button'>
+                                        Next generation
+                            </button>
+                            <button type="button" class="btn btn-success pull-right" id='export_button'>
+                                        Export
+                            </button>
+                        </div>
                         <p class="navbar-text navbar-right">Individual project 2014/2015, © Izabela Orłowska</p>
                     </div>
                 </div>
