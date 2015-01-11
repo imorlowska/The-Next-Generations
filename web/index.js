@@ -97,7 +97,7 @@ var init_intro = function() {
 function exportJson(el) {
     var json = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.current_population));
     el.setAttribute("href", "data:" + json);
-    el.setAttribute("download", "data.json");    
+    el.setAttribute("download", window.current_population.name + ".json");    
 }
 
 var fill_characteristics_list = function() {
