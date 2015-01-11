@@ -360,7 +360,13 @@ var draw_table = function(obj) {
     for (i = 0; i < obj.females.length; i++) {
         add_specimen_to_table(obj.females[i]);
     }
-    $('#average_age')[0].innerHTML = "Average age: " + Number((sumAge/specimenNb).toFixed(1));
+    var averageAge;
+    if (specimenNb > 0) {
+        averageAge = Number((sumAge/specimenNb).toFixed(1));
+    } else {
+        averageAge = "all have died";
+    }
+    $('#average_age')[0].innerHTML = "Average age: " + averageAge;
     myTableDiv.appendChild(table);
 };
 
