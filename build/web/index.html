@@ -41,7 +41,7 @@
                                         <div class="btn-group-vertical" role="group">
                                             <button class='btn btn-default' id='example_population_button'>See example</button>
                                             <button class='btn btn-default' id='new_population_button'>Create new population</button>
-                                            <button class='btn btn-default'>Load previous population</button>
+                                            <button class='btn btn-default' id='load_population_button'>Load previous population</button>
                                         </div>
                                     </div>
                                 </div>
@@ -78,6 +78,27 @@
                                             <button class='btn btn-default'>Load previous offspring</button>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="load_population_content">
+                        <div class="col-sm-6">
+                            <div class="panel panel-default" id="load_population_div">
+                                <div class="panel-heading text-center">
+                                    <h4>Load population from JSON</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <p> Please paste JSON string that you obtained in a previous experiment. </p>
+                                    <p> Please make sure it is copied and pasted properly. </p>
+                                    <form role="form" class="form form-default">
+                                        <div class="form-group">
+                                            <textarea rows="4" cols="50" id="pasted_population_json">
+                                            </textarea>
+                                        </div>
+                                        <button id="load_button_next" class="btn btn-success">Load</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

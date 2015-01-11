@@ -3,6 +3,7 @@ $(document).ready(function() {
     $('#stats_container').hide();
     $('#create_new_population_content').hide();
     $('#buttons_div').hide();
+    $('#load_population_content').hide();
     init_intro();
 });
 
@@ -25,6 +26,22 @@ var init_intro = function() {
         console.log('loading example population...');
         $('#start_over_div').show();
         init_stats(true);
+    });
+    $('#load_population_button').click(function(event){
+        event.preventDefault();
+        $('#intro_main').hide();
+        $('#load_population_content').show();
+        $('#buttons_div').show();
+        $('#next_button').hide();
+        $('#export_button').hide();
+        $('#start_over_button').show();
+    });
+    $('#load_button_next').click(function(event) {
+        event.preventDefault();
+        var input_json = document.getElementById("pasted_population_json").value;
+        var parsed = JSON.parse(input_json);
+        console.log(parsed);
+        init_loaded_stats(parsed);
     });
     $('#population_button_1').click(function(event) {
         event.preventDefault();
@@ -184,7 +201,17 @@ var add_specimen = function() {
     var snd = document.getElementById('specimen_number_div');
     snd.innerHTML = "<h5>Number of specimen: " + window.number_of_specimen + "</h5>";
 };
-
+var init_loaded_stats = function(obj) {
+    $('#buttons_div').show();
+    $('#next_button').show();
+    $('#export_button').show();
+    $('#start_over_button').show();
+    $('#load_population_content').hide();
+    
+    draw_stats(obj);
+    
+    $('#stats_container').show();
+};
 var init_stats = function(is_example) {
     // Hide other sections
     $('#intro_main').hide();
