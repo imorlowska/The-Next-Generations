@@ -368,16 +368,17 @@ var draw_line_chart = function(males, females) {
     if (typeof window.labels_list === 'undefined') {
         window.labels_list = [];
         window.labels_list.push(window.current_population.ageCycles);
+        ++window.current_population.ageCycles;
     }
     window.labels_list.push(window.current_population.ageCycles);
     if (typeof window.male_history === 'undefined') {
         window.male_history = [];
-        window.male_history.push(males);
+        window.male_history.push(0);
     }
     window.male_history.push(males);
     if (typeof window.female_history === 'undefined') {
         window.female_history = [];
-        window.female_history.push(females);
+        window.female_history.push(0);
     }
     window.female_history.push(females);
     var data = {
