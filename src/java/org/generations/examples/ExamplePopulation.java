@@ -30,10 +30,10 @@ public class ExamplePopulation {
         Specimen s1 = Specimen.createSpecimen();
         Specimen s2 = Specimen.createSpecimen();
         
-        AlleleCharacteristic c1 = new AlleleCharacteristic("test");
+        AlleleCharacteristic c1 = new AlleleCharacteristic("Fur colour");
         c1.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
-        c1.setDominantName("Dom");
-        c1.setRecessiveName("Rec");
+        c1.setDominantName("Brown");
+        c1.setRecessiveName("Blonde");
         
         Genotype g1 = new Genotype(Gender.FEMALE);
         g1.addCharacteristic(c1);
