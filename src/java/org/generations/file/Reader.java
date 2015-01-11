@@ -44,20 +44,24 @@ public class Reader {
         for (int i = 0; i < malesArray.length(); ++i) {
             JSONObject sObject = malesArray.getJSONObject(i);
             Genotype g = new Genotype(Gender.MALE);
-            JSONArray characteristics = sObject.getJSONObject("genotype").getJSONArray("characteristics");
-            for (int j = 0; j < characteristics.length(); ++j) {
-                JSONObject chObject = characteristics.getJSONObject(j);
-                AlleleCharacteristic ch = new AlleleCharacteristic(chObject.getString("name"));
-                ch.setRecessiveName(chObject.getString("recessiveName"));
-                ch.setDominantName(chObject.getString("dominantName"));
-                if (chObject.getBoolean("recessive")) {
-                    ch.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
-                } else if (chObject.getBoolean("stronglyDominant")) {
-                    ch.setAllele(Allele.DOMINANT, Allele.DOMINANT);
-                } else {
-                    ch.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+            try {
+                JSONArray characteristics = sObject.getJSONObject("genotype").getJSONArray("characteristics");
+                for (int j = 0; j < characteristics.length(); ++j) {
+                    JSONObject chObject = characteristics.getJSONObject(j);
+                    AlleleCharacteristic ch = new AlleleCharacteristic(chObject.getString("name"));
+                    ch.setRecessiveName(chObject.getString("recessiveName"));
+                    ch.setDominantName(chObject.getString("dominantName"));
+                    if (chObject.getBoolean("recessive")) {
+                        ch.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
+                    } else if (chObject.getBoolean("stronglyDominant")) {
+                        ch.setAllele(Allele.DOMINANT, Allele.DOMINANT);
+                    } else {
+                        ch.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+                    }
+                    g.addCharacteristic(ch);
                 }
-                g.addCharacteristic(ch);
+            } catch (Exception e) {
+                //just leave characteristics empty
             }
             Specimen specimen = Specimen.createSpecimen()
                     .setAge(sObject.getInt("age"))
@@ -72,22 +76,25 @@ public class Reader {
         for (int i = 0; i < femalesArray.length(); ++i) {
             JSONObject sObject = femalesArray.getJSONObject(i);
             Genotype g = new Genotype(Gender.FEMALE);
-            JSONArray characteristics = sObject.getJSONObject("genotype").getJSONArray("characteristics");
-            for (int j = 0; j < characteristics.length(); ++j) {
-                JSONObject chObject = characteristics.getJSONObject(j);
-                AlleleCharacteristic ch = new AlleleCharacteristic(chObject.getString("name"));
-                ch.setRecessiveName(chObject.getString("recessiveName"));
-                ch.setDominantName(chObject.getString("dominantName"));
-                if (chObject.getBoolean("recessive")) {
-                    ch.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
-                } else if (chObject.getBoolean("stronglyDominant")) {
-                    ch.setAllele(Allele.DOMINANT, Allele.DOMINANT);
-                } else {
-                    ch.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+            try {
+                JSONArray characteristics = sObject.getJSONObject("genotype").getJSONArray("characteristics");
+                for (int j = 0; j < characteristics.length(); ++j) {
+                    JSONObject chObject = characteristics.getJSONObject(j);
+                    AlleleCharacteristic ch = new AlleleCharacteristic(chObject.getString("name"));
+                    ch.setRecessiveName(chObject.getString("recessiveName"));
+                    ch.setDominantName(chObject.getString("dominantName"));
+                    if (chObject.getBoolean("recessive")) {
+                        ch.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
+                    } else if (chObject.getBoolean("stronglyDominant")) {
+                        ch.setAllele(Allele.DOMINANT, Allele.DOMINANT);
+                    } else {
+                        ch.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+                    }
+                    g.addCharacteristic(ch);
                 }
-                g.addCharacteristic(ch);
+            } catch (Exception e) {
+                // just leave characteristics empty
             }
-            System.out.println(characteristics);
             Specimen specimen = Specimen.createSpecimen()
                     .setAge(sObject.getInt("age"))
                     .setLifeExp(sObject.getInt("lifeExp"))

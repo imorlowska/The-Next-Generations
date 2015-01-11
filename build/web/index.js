@@ -441,7 +441,7 @@ var draw_gender_pie_chart = function(males, females) {
                 value: window.current_population.specimenDead,
                 color: "#E81919",
                 highlight: "#FF0000",
-                label: "All dead"
+                label: "They're dead, Jim. Deaths"
             }
         ];
     }
@@ -638,7 +638,7 @@ var draw_doughnut_characteristic_stat = function(index, char) {
                 value: max(1, window.current_population.specimenDead),
                 color: "#E81919",
                 highlight: "#FF0000",
-                label: "All dead"
+                label: "They're dead, Jim. Deaths"
             }
         ];
     }
