@@ -37,6 +37,7 @@ public class Specimen {
         lifeExp = 0;
         alive = true;
         genotype = null;
+        specimenID = 0;
     }
     
     /////////////////////////////////// STATIC CONSTRUCTOR METHOD AND IN PLACE SETTERS ///////////

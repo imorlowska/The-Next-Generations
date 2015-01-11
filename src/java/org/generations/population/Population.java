@@ -52,8 +52,10 @@ public class Population {
     }
     
     public void addSpecimen(Specimen s) {
-        s.setSpecimenID(specimenNumberToDate);
-        ++specimenNumberToDate;
+        if (s.getSpecimenID() == 0) {
+            s.setSpecimenID(specimenNumberToDate);
+            ++specimenNumberToDate;
+        }
         if (s.getLifeExp() == 0) {
             s.setLifeExp(averageLifeExp);
         }
@@ -180,7 +182,6 @@ public class Population {
                 if (rand.nextBoolean()) { // 50-50 chances of producing offspring
                     Specimen father = males.get(rand.nextInt(males.size()));
                     Specimen child = mother.produceChildWith(father);
-                    specimenNumberToDate++;
                     children.add(child);
                 }
             }

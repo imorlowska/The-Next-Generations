@@ -198,9 +198,51 @@ var init_stats = function(is_example) {
         var baseURL = "webresources/api";
         $.getJSON(baseURL, draw_stats);
     } else {
-        alert("get data");
+        fillPopulationAndDrawStats();
     }
     $('#stats_container').show();
+};
+
+var fillPopulationAndDrawStats = function() {
+    var life_exp_val = document.getElementById('population_form_exp').value;
+    var males = [];
+    var females = [];
+    var index = 0;
+    for (index = 0; index < window.specimen_list.length; ++index) {
+        var spec = window.specimen_list[index];
+        if (spec.is_male) {
+            spec_obj = {
+                specimenID: spec.id,
+                male: true,
+                age: 0,
+                lifeExp:life_exp_val,
+                alive: true
+            };
+            males.push(spec_obj);
+        } else {
+            spec_obj = {
+                specimenID: spec.id,
+                male: false,
+                age: 0,
+                lifeExp:life_exp_val,
+                alive: true
+            };
+            females.push(spec_obj);
+        }
+    }
+    population = {
+        name: document.getElementById('population_form_name').value,
+        specimenNumberToDate: 0,
+        specimenDead: 0,
+        averageLifeExp: life_exp_val,
+        ageCycles:0,
+        males: males,
+        females: females
+    };
+    
+    console.log(population);
+    
+    draw_stats(population);
 };
 
 var testGET = function() {
@@ -231,9 +273,9 @@ var draw_stats = function(obj) {
     window.current_population = obj;
     console.log(obj.name);
     $('#title')[0].innerHTML = "Population name: " + obj.name;
-    $('#specimen_alive')[0].innerHTML = "Specimen alive: " + (obj.specimenNumberToDate - obj.specimenDead);
+    $('#specimen_alive')[0].innerHTML = "Specimen alive: " + (obj.males.length + obj.females.length);
     $('#specimen_dead')[0].innerHTML = "Secimen dead: " + obj.specimenDead;
-    $('#specimen_total')[0].innerHTML = "Specimen total: " + obj.specimenNumberToDate;
+    $('#specimen_total')[0].innerHTML = "Specimen total: " + (obj.males.length + obj.females.length + obj.specimenDead);
     draw_table(obj);
     draw_gender_pie_chart(obj.males.length, obj.females.length);
     draw_line_chart(obj.males.length, obj.females.length);
