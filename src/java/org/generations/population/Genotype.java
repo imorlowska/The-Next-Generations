@@ -43,7 +43,7 @@ public class Genotype {
     
     private Genotype(AlleleCharacteristic g) {
         this.genderCharacteristic = g;
-        if (g.equals(AlleleCharacteristic.MALE)) {
+        if (g.isDominant()) {
             this.gender = Gender.MALE;
         } else {
             this.gender = Gender.FEMALE;

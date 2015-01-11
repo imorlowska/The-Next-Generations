@@ -50,7 +50,7 @@ public class PopulationTest {
         
         int females = 0;
         int males = 0;
-        for (int i = 0; i < 10000; ++i) {
+        for (int i = 0; i < 100; ++i) {
             AlleleCharacteristic child =
                     (AlleleCharacteristic) female.produceChildWith(male);
             if (child.isDominant()) {
@@ -69,5 +69,7 @@ public class PopulationTest {
         ExamplePopulation pop = new ExamplePopulation();
         JSONObject o = new JSONObject(pop.population);
         System.out.println(o.toString());
+        System.out.println("Females in example populaiton: " + pop.population.getFemales().size());
+        System.out.println("Males in example populaiton: " + pop.population.getMales().size());
     }
 }

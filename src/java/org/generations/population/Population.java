@@ -18,12 +18,14 @@ package org.generations.population;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A class containing all information about the population.
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class Population {
+    public static final Random rand = new Random();
     private long specimenNumberToDate = 0;
     private long specimenDead = 0;
     private int averageLifeExp = 100;
@@ -48,6 +50,11 @@ public class Population {
     }
     
     public void addSpecimen(Specimen s) {
+        s.setSpecimenID(specimenNumberToDate);
+        ++specimenNumberToDate;
+        if (s.getLifeExp() == 0) {
+            s.setLifeExp(averageLifeExp);
+        }
         if (s.isMale()) {
                 males.add(s);
             } else {

@@ -21,7 +21,7 @@ var init_intro = function() {
         event.preventDefault();
         console.log('loading example population...');
         $('#start_over_div').show();
-        init_stats();
+        init_stats(true);
     });
     $('#population_button_1').click(function(event) {
         event.preventDefault();
@@ -46,8 +46,7 @@ var init_intro = function() {
         // TODO validate and process input
         //$('#create_1').hide();
         //$('#create_2').hide();
-        alert('do something with stats now...');
-        init_stats();
+        init_stats(false);
     });
     $('#add_characteristic_button').click(function(event) {
         event.preventDefault();
@@ -166,16 +165,19 @@ var add_specimen = function() {
     snd.innerHTML = "<h5>Number of specimen: " + window.number_of_specimen + "</h5>";
 };
 
-var init_stats = function() {
+var init_stats = function(is_example) {
     // Hide other sections
     $('#intro_main').hide();
     $('#create_new_population_content').hide();
 
     // Init controls
     init_controls();
-   
-    var baseURL = "webresources/api";
-    $.getJSON(baseURL, draw_stats);
+    if (is_example) {
+        var baseURL = "webresources/api";
+        $.getJSON(baseURL, draw_stats);
+    } else {
+        alert("get data");
+    }
     $('#stats_container').show();
 };
 

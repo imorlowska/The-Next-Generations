@@ -17,7 +17,6 @@
 package org.generations.population;
 
 import org.generations.population.exceptions.IncompatibleCharacteristicsException;
-import java.util.Random;
 
 /**
  * Characteristic based on two alleles.
@@ -30,7 +29,7 @@ public class AlleleCharacteristic extends Characteristic {
             getGenderCharacteristic(false);
     public static final AlleleCharacteristic MALE = 
             getGenderCharacteristic(true);
-    private static final Random rand = new Random();
+    
     private String dominantName;
     private String recessiveName;
     private Allele first;
@@ -118,12 +117,12 @@ public class AlleleCharacteristic extends Characteristic {
         AlleleCharacteristic child = new AlleleCharacteristic(this.getName());
         child.setDominantName(this.dominantName);
         child.setRecessiveName(this.recessiveName);
-        if (rand.nextBoolean()) {
+        if (!Population.rand.nextBoolean()) {
             child.setFirstAllele(this.getFirstAllele());
         } else {
             child.setFirstAllele(this.getSecondAllele());
         }
-        if (rand.nextBoolean()) {
+        if (!Population.rand.nextBoolean()) {
             child.setSecondAllele(
                     ((AlleleCharacteristic)mate).getFirstAllele());
         } else {

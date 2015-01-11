@@ -23,13 +23,12 @@ public class ExamplePopulation {
     
     public ExamplePopulation() throws IncompatibleGenderBreedingException, 
             IncompatibleCharacteristicsException {
-        population = new Population("Tribbles2");
+        population = new Population("Tribbles");
         
         population.setAverageLifeExp(5);
         
-        Specimen s1 = Specimen.createSpecimen().setLifeExp(4);
-        Specimen s2 = Specimen.createSpecimen().setLifeExp(6);
-        Specimen s3 = Specimen.createSpecimen().setLifeExp(5);
+        Specimen s1 = Specimen.createSpecimen();
+        Specimen s2 = Specimen.createSpecimen();
         
         AlleleCharacteristic c1 = new AlleleCharacteristic("test");
         c1.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
@@ -43,12 +42,15 @@ public class ExamplePopulation {
         Genotype g2 = new Genotype(Gender.MALE);
         g2.addCharacteristic(c1);
         s2.setGenotype(g2);
-
-        Specimen s4 = s1.produceChildWith(s2);
         
         population.addSpecimen(s1);
         population.addSpecimen(s2);
-        population.addSpecimen(s3);
-        population.addSpecimen(s4);
+        
+        for (int i=0; i<100; ++i) {
+            Specimen child = s1.produceChildWith(s2);
+            population.addSpecimen(child);
+            
+        }
+        
     }
 }
