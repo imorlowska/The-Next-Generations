@@ -40,7 +40,7 @@ var init_intro = function() {
         event.preventDefault();
         var input_json = document.getElementById("pasted_population_json").value;
         var parsed = JSON.parse(input_json);
-        console.log(parsed);
+        //console.log(parsed);
         init_loaded_stats(parsed);
     });
     $('#population_button_1').click(function(event) {
@@ -87,7 +87,7 @@ var init_intro = function() {
             type: 'POST',
             url: 'webresources/api',
             data: JSON.stringify(window.current_population),
-            success: function(data) { console.log(data); draw_stats(data); },
+            success: function(data) { draw_stats(data); },
             contentType: "application/json",
             dataType: 'json'
         });
@@ -128,7 +128,6 @@ var fill_characteristics_list = function() {
                     );
             
         }
-        console.log($('#user_characteristics_list'));
     }
 };
 
@@ -191,7 +190,6 @@ var add_specimen = function() {
         is_male: document.getElementById('male_op').checked,
         characteristics: characteristics_list
     };
-    console.log(specimen_object);
     
     if (typeof window.specimen_list === 'undefined') {
         window.specimen_list = [];
@@ -267,7 +265,6 @@ var fillPopulationAndDrawStats = function() {
         females: females
     };
     
-    console.log(population);
     
     draw_stats(population);
 };
@@ -298,7 +295,6 @@ var formToJSON = function () {
 
 var draw_stats = function(obj) {
     window.current_population = obj;
-    console.log(obj.name);
     $('#title')[0].innerHTML = "Population name: " + obj.name;
     $('#specimen_alive')[0].innerHTML = "Specimen alive: " + (obj.males.length + obj.females.length);
     $('#specimen_dead')[0].innerHTML = "Secimen dead: " + obj.specimenDead;
@@ -306,6 +302,7 @@ var draw_stats = function(obj) {
     draw_table(obj);
     draw_gender_pie_chart(obj.males.length, obj.females.length);
     draw_line_chart(obj.males.length, obj.females.length);
+    fill_characteristics_stats(obj);
 };
 
 var draw_table = function(obj) {
@@ -423,7 +420,6 @@ var draw_line_chart = function(males, females) {
 };
 
 var draw_gender_pie_chart = function(males, females) {
-    console.log(males + ', ' + females);
     if (males + females > 0) {
         var data = [
             {
@@ -459,6 +455,263 @@ var draw_gender_pie_chart = function(males, females) {
     window.gender_pie_chart = new Chart(ctx).Doughnut(data, chart_options);
     $('#males_number')[0].innerHTML = "Males: " + males;
     $('#females_number')[0].innerHTML = "Females: " + females;
+};
+
+var fill_characteristics_stats = function(object) {
+    init_characteristic_stats_if_needed(object);
+    update_characteristic_stats(object);
+};
+
+var init_characteristic_stats_if_needed = function(object) {
+    if (typeof window.characteristic_stats === 'undefined') {
+        window.characteristic_stats = [];
+        if (object.males.length > 0) {
+            if (!(typeof object.males[0].genotype === 'undefined')
+                && (!(typeof object.males[0].genotype.characteristics === 'undefined'))
+                && object.males[0].genotype.characteristics.length > 0) {
+                var list = object.males[0].genotype.characteristics;
+                var index;
+                for (index = 0; index < list.length; ++index) {
+                    characteristic_obj = {
+                        name: list[index].name,
+                        recName: list[index].recessiveName,
+                        domName: list[index].dominantName,
+                        recHist: [0],
+                        sDomHist: [0],
+                        wDomHist: [0],
+                        currRec: 0,
+                        currSDom: 0,
+                        currWDom: 0                        
+                    };
+                    window.characteristic_stats.push(characteristic_obj);
+                }
+            } else {
+                console.log("No user characteristics");
+            }
+        } else if (object.females.length > 0) {
+            if (!(typeof object.females[0].genotype === 'undefined')
+                && (!(typeof object.females[0].genotype.characteristics === 'undefined'))
+                && object.females[0].genotype.characteristics.length > 0) {
+                var list = object.females[0].genotype.characteristics;
+                var index;
+                for (index = 0; index < list.length; ++index) {
+                    characteristic_obj = {
+                        name: list[index].name,
+                        recName: list[index].recessiveName,
+                        domName: list[index].dominantName,
+                        recHist: [0],
+                        sDomHist: [0],
+                        wDomHist: [0],
+                        currRec: 0,
+                        currSDom: 0,
+                        currWDom: 0                        
+                    };
+                    window.characteristic_stats.push(characteristic_obj);
+                }
+            } else {
+                console.log("No user characteristics");
+            }
+        } else {
+            // no user characteristics since no specimen
+            console.log("No user characteristics");
+        }
+        if (window.characteristic_stats.length > 0) {
+            $('#user_characteristics_stats')[0].innerHTML += 
+                    "<h2> User defined characteristics: </h2>";
+        }
+        var index;
+        for (index = 0; index < window.characteristic_stats.length; ++ index) {
+            var curr = window.characteristic_stats[index];
+            $('#user_characteristics_stats')[0].innerHTML +=
+                    "<h3>" + (index+1) + ". "+ curr.name + "</h3>" +
+                    "<div class='row'>" + 
+                        '<div class="col-sm-6">' +
+                            '<h4>Current state</h4>' +
+                            '<canvas id="'+ index +'_characteristic_chart" width="300" height="300"></canvas>' +
+                            '<h5 id="'+index+'_rec_number">'+curr.recName+'(recessive): 0</h5>' +
+                            '<h5 id="'+index+'_s_dom_number">'+curr.domName+'(strongly dominant): 0</h5>' +
+                            '<h5 id="'+index+'_w_dom_number">'+curr.domName+'(weakly dominant): 0</h5>' +
+                        '</div>' +
+                        '<div class="col-sm-6">' +
+                            '<h4>Characteristic History Line Chart</h4>' +
+                            '<canvas id="'+index+'_char_line_chart" width="300" height="300"></canvas>' +
+                        '</div>' +
+                    '</div>';
+        }
+    }
+};
+
+var update_characteristic_stats = function(object) {
+    var index;
+    var list = window.characteristic_stats;
+    for (index = 0; index < list.length; ++index) {
+        list[index].currRec = 0;
+        list[index].currSDom = 0;
+        list[index].currWDom = 0;
+        var index_males;
+        for (index_males = 0; index_males < object.males.length; ++index_males) {
+            var index_char;
+            var my_man = object.males[index_males];
+            for (index_char = 0; index_char < my_man.genotype.characteristics.length; ++index_char) {
+                // go through characteristics to find data
+                if (my_man.genotype.characteristics[index_char].name === list[index].name) {
+                    if (my_man.genotype.characteristics[index_char].recessive) {
+                        list[index].currRec += 1;
+                        //console.log("Foud rec for char " + list[index].name);
+                    } else if (my_man.genotype.characteristics[index_char].stronglyDominant) {
+                        list[index].currSDom += 1;
+                        //console.log("Foud s dom for char " + list[index].name);
+                    } else { //weakly dominant
+                        if (!my_man.genotype.characteristics[index_char].dominant) {
+                            //or screwed up
+                            alert("Characteristic is not rec, strong dom or weak dom. Something went wrong!");
+                        } else {
+                            list[index].currWDom += 1;
+                            //console.log("Foud w dom for char " + list[index].name);
+                        }
+                    }
+                }
+            }
+        }
+        var index_females;
+        for (index_females = 0; index_females < object.females.length; ++index_females) {
+            var index_char;
+            var my_woman = object.females[index_females];
+            for (index_char = 0; index_char < my_woman.genotype.characteristics.length; ++index_char) {
+                // go through characteristics to find data
+                if (my_woman.genotype.characteristics[index_char].name === list[index].name) {
+                    if (my_woman.genotype.characteristics[index_char].recessive) {
+                        list[index].currRec += 1;
+                        //console.log("Foud rec for char " + list[index].name);
+                    } else if (my_woman.genotype.characteristics[index_char].stronglyDominant) {
+                        list[index].currSDom += 1;
+                        //console.log("Foud s dom for char " + list[index].name);
+                    } else { //weakly dominant
+                        if (!my_woman.genotype.characteristics[index_char].dominant) {
+                            //or screwed up
+                            alert("Characteristic is not rec, strong dom or weak dom. Something went wrong!");
+                        } else {
+                            list[index].currWDom += 1;
+                            //console.log("Foud w dom for char " + list[index].name);
+                        }
+                    }
+                }
+            }
+        }
+        list[index].recHist.push(list[index].currRec);
+        list[index].sDomHist.push(list[index].currSDom);
+        list[index].wDomHist.push(list[index].currWDom);
+        draw_characteristic_stats(index, list[index]);
+    }
+};
+
+var draw_characteristic_stats = function(index, characteristic) {
+    draw_doughnut_characteristic_stat(index, characteristic);
+    draw_line_chart_characteristic_stat(index, characteristic);
+};
+
+var draw_doughnut_characteristic_stat = function(index, char) {
+    if ((char.currRec + char.currSDom + char.currWDom) > 0) {
+        var data = [
+            {
+                value: char.currRec,
+                color: "#40FF00",
+                highlight: "#82FA58",
+                label: char.recName
+            },
+            {
+                value: char.currSDom,
+                color:"#FF4000",
+                highlight: "#FF5A5E",
+                label: char.domName + " (strongly dom)"
+            },
+            {
+                value: char.currWDom,
+                color:"#FFFF00",
+                highlight: "#FA8258",
+                label: char.domName + " (weakly dom)"
+            }
+        ];
+    } else {
+        var data = [
+            {
+                value: max(1, window.current_population.specimenDead),
+                color: "#E81919",
+                highlight: "#FF0000",
+                label: "All dead"
+            }
+        ];
+    }
+    if (typeof window.characteristic_pie_chart === 'undefined') {
+        window.characteristic_pie_chart = [];
+    }
+    // If chart with old data already exists, destroy it and re-create with new data
+    if (typeof window.characteristic_pie_chart[index] !== 'undefined') {
+        window.characteristic_pie_chart[index].destroy();
+    }
+    var ctx = $("#"+index+"_characteristic_chart").get(0).getContext("2d");
+    ctx.clearRect(0, 0, 300, 300);
+    ctx.beginPath();
+    window.characteristic_pie_chart[index] = new Chart(ctx).Doughnut(data, chart_options);
+    $('#'+index+'_rec_number')[0].innerHTML = char.recName+'(recessive): ' + char.currRec;
+    $('#'+index+'_s_dom_number')[0].innerHTML = char.domName+'(strongly dominant): ' + char.currSDom;
+    $('#'+index+'_w_dom_number')[0].innerHTML = char.domName+'(weakly dominant): ' + char.currWDom;
+};
+
+var max = function(val1, val2) {
+    if (val1 > val2) {
+        return val1;
+    } else {
+        return val2;
+    }
+};
+
+var draw_line_chart_characteristic_stat = function(index, char) {
+    var data = {
+        labels: window.labels_list,
+        datasets: [
+            {
+                label: char.recName,
+                fillColor: "rgba(220,100,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: char.recHist
+            },
+            {
+                label: char.domName + "(s)",
+                fillColor: "rgba(100,200,100,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(80,90,100,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: char.sDomHist
+            },
+            {
+                label: char.domName + "(w)",
+                fillColor: "rgba(100,200,100,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(80,90,100,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: char.wDomHist
+            }
+        ]
+    };
+    if (typeof window.characteristic_line_chart === 'undefined') {
+        window.characteristic_line_chart = [];
+    }
+    if (typeof window.characteristic_line_chart[index] !== 'undefined') {
+        window.characteristic_line_chart[index].destroy();
+    }
+    var ctx = $('#'+index+'_char_line_chart').get(0).getContext("2d");
+    ctx.clearRect(0,0,300,300);
+    ctx.beginPath();
+    window.characteristic_line_chart[index] = new Chart(ctx).Line(data);
 };
 
 chart_options = {

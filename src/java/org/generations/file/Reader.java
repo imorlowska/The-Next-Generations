@@ -16,6 +16,9 @@
  */
 package org.generations.file;
 
+import org.generations.population.Allele;
+import org.generations.population.AlleleCharacteristic;
+import org.generations.population.Characteristic;
 import org.generations.population.Genotype;
 import org.generations.population.Genotype.Gender;
 import org.generations.population.Population;
@@ -41,6 +44,21 @@ public class Reader {
         for (int i = 0; i < malesArray.length(); ++i) {
             JSONObject sObject = malesArray.getJSONObject(i);
             Genotype g = new Genotype(Gender.MALE);
+            JSONArray characteristics = sObject.getJSONObject("genotype").getJSONArray("characteristics");
+            for (int j = 0; j < characteristics.length(); ++j) {
+                JSONObject chObject = characteristics.getJSONObject(j);
+                AlleleCharacteristic ch = new AlleleCharacteristic(chObject.getString("name"));
+                ch.setRecessiveName(chObject.getString("recessiveName"));
+                ch.setDominantName(chObject.getString("dominantName"));
+                if (chObject.getBoolean("recessive")) {
+                    ch.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
+                } else if (chObject.getBoolean("stronglyDominant")) {
+                    ch.setAllele(Allele.DOMINANT, Allele.DOMINANT);
+                } else {
+                    ch.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+                }
+                g.addCharacteristic(ch);
+            }
             Specimen specimen = Specimen.createSpecimen()
                     .setAge(sObject.getInt("age"))
                     .setLifeExp(sObject.getInt("lifeExp"))
@@ -54,6 +72,22 @@ public class Reader {
         for (int i = 0; i < femalesArray.length(); ++i) {
             JSONObject sObject = femalesArray.getJSONObject(i);
             Genotype g = new Genotype(Gender.FEMALE);
+            JSONArray characteristics = sObject.getJSONObject("genotype").getJSONArray("characteristics");
+            for (int j = 0; j < characteristics.length(); ++j) {
+                JSONObject chObject = characteristics.getJSONObject(j);
+                AlleleCharacteristic ch = new AlleleCharacteristic(chObject.getString("name"));
+                ch.setRecessiveName(chObject.getString("recessiveName"));
+                ch.setDominantName(chObject.getString("dominantName"));
+                if (chObject.getBoolean("recessive")) {
+                    ch.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
+                } else if (chObject.getBoolean("stronglyDominant")) {
+                    ch.setAllele(Allele.DOMINANT, Allele.DOMINANT);
+                } else {
+                    ch.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+                }
+                g.addCharacteristic(ch);
+            }
+            System.out.println(characteristics);
             Specimen specimen = Specimen.createSpecimen()
                     .setAge(sObject.getInt("age"))
                     .setLifeExp(sObject.getInt("lifeExp"))
