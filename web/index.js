@@ -17,7 +17,7 @@ var init_intro = function() {
         $('#create_3').hide();
         $('#start_over_div').show();
     });
-    $('#example_population_button').click(function() {
+    $('#example_population_button').click(function(event) {
         event.preventDefault();
         console.log('loading example population...');
         $('#start_over_div').show();

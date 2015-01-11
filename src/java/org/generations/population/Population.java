@@ -24,6 +24,9 @@ import java.util.List;
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class Population {
+    private long specimenNumberToDate = 0;
+    private long specimenDead = 0;
+    private int averageLifeExp = 100;
     private List<Specimen> females;
     private List<Specimen> males;
     private String name;
@@ -123,7 +126,39 @@ public class Population {
         this.ageCycles = ageCycles;
     }
     
-    public int getTestValue() {
-        return 42;
+    /**
+     * Should only be called if reading a whole population.
+     * @param killed the number of specimen dead to date
+     */
+    public void setSpecimenDead(long killed) {
+        specimenDead = killed;
+    }
+    
+    /**
+     * Should only be called if reading a whole population.
+     * @param number the number of specimen to date
+     */
+    public void setSpecimenNumberToDate(long number) {
+        specimenNumberToDate = number;
+    }
+    
+    /**
+     * Updates the average life expectancy.
+     * @param age the new average
+     */
+    public void setAverageLifeExp(int age) {
+        averageLifeExp = age;
+    }
+    
+    public long getSpecimenNumberToDate() {
+        return specimenNumberToDate;
+    }
+    
+    public long getSpecimenDead() {
+        return specimenDead;
+    }
+    
+    public int getAverageLifeExp() {
+        return averageLifeExp;
     }
 }

@@ -7,7 +7,6 @@ package org.generations.examples;
 
 import org.generations.population.Allele;
 import org.generations.population.AlleleCharacteristic;
-import org.generations.population.Characteristic;
 import org.generations.population.Genotype;
 import org.generations.population.Genotype.Gender;
 import org.generations.population.Population;
@@ -26,11 +25,11 @@ public class ExamplePopulation {
             IncompatibleCharacteristicsException {
         population = new Population("Tribbles2");
         
-        Specimen.setAverageLifeExp(5);
+        population.setAverageLifeExp(5);
         
         Specimen s1 = Specimen.createSpecimen().setLifeExp(4);
         Specimen s2 = Specimen.createSpecimen().setLifeExp(6);
-        Specimen s3 = Specimen.createSpecimen();
+        Specimen s3 = Specimen.createSpecimen().setLifeExp(5);
         
         AlleleCharacteristic c1 = new AlleleCharacteristic("test");
         c1.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
