@@ -28,7 +28,7 @@ import org.json.JSONObject;
  * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 public class Reader {
-    public Population parseJSON2Population(String jsonString) {
+    public static Population parseJSON2Population(String jsonString) {
         JSONObject json = new JSONObject(jsonString);
         
         Population population = new Population(json.getString("name"));

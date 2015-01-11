@@ -69,7 +69,11 @@ public class PopulationTest {
         ExamplePopulation pop = new ExamplePopulation();
         JSONObject o = new JSONObject(pop.population);
         System.out.println(o.toString());
-        System.out.println("Females in example populaiton: " + pop.population.getFemales().size());
-        System.out.println("Males in example populaiton: " + pop.population.getMales().size());
+        for (int i = 0; i < 10; ++i) {
+            System.out.println("Females in example populaiton: " + pop.population.getFemales().size());
+            System.out.println("Males in example populaiton: " + pop.population.getMales().size());
+            System.out.println("Total: " + (pop.population.getFemales().size() + pop.population.getMales().size()));
+            pop.population.nextStep();
+        }
     }
 }

@@ -64,7 +64,24 @@ var init_intro = function() {
         event.preventDefault();
        window.location.reload(); 
     });
+    
+    $('#next_button').click( function() {
+        $.ajax({
+            type: 'POST',
+            url: 'webresources/api',
+            data: JSON.stringify(window.current_population),
+            success: function(data) { console.log(data); draw_stats(data); },
+            contentType: "application/json",
+            dataType: 'json'
+        });
+    });
 };
+
+function exportJson(el) {
+    var json = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.current_population));
+    el.setAttribute("href", "data:" + json);
+    el.setAttribute("download", "data.json");    
+}
 
 var fill_characteristics_list = function() {
     console.log('Trying to fill characteristics list for specimen...');
@@ -211,11 +228,12 @@ var formToJSON = function () {
 };
 
 var draw_stats = function(obj) {
+    window.current_population = obj;
     console.log(obj.name);
     $('#title')[0].innerHTML = "Population name: " + obj.name;
     draw_table(obj);
     draw_gender_pie_chart(obj.males.length, obj.females.length);
-    draw_line_chart([2,3,4,5,3,6,7], [4,2,4,3,2,1,5]);
+    //draw_line_chart([2,3,4,5,3,6,7], [4,2,4,3,2,1,5]);
 };
 
 var draw_table = function(obj) {
@@ -229,7 +247,7 @@ var draw_table = function(obj) {
     var tableBody = document.createElement('TBODY');
     table.border = '1';
     table.appendChild(tableBody);
-    var headings = ['id', 'alive', 'gender', 'age', 'life expectancy'];
+    var headings = ['gender', 'age', 'life expectancy'];
 
     var tr = document.createElement('TR');
     tableBody.appendChild(tr);
@@ -240,16 +258,8 @@ var draw_table = function(obj) {
         tr.appendChild(th);
     }
     
-    var add_specimen_to_table = function(specimen, specimenID) {
+    var add_specimen_to_table = function(specimen) {
         var tr = document.createElement('TR');
-        // Specimen ID
-        var td = document.createElement('TD');
-        td.appendChild(document.createTextNode(specimenID));
-        tr.appendChild(td);
-        // Alive?
-        var td = document.createElement('TD');
-        td.appendChild(document.createTextNode(specimen.alive));
-        tr.appendChild(td);
         // Gender
         var td = document.createElement('TD');
         var gender = specimen.male ? 'male' : 'female';
@@ -268,11 +278,11 @@ var draw_table = function(obj) {
     };
 
     for (i = 0; i < obj.males.length; i++) {
-        add_specimen_to_table(obj.males[i], i);
+        add_specimen_to_table(obj.males[i]);
     }
 
     for (i = 0; i < obj.females.length; i++) {
-        add_specimen_to_table(obj.females[i], obj.males.length + i);
+        add_specimen_to_table(obj.females[i]);
     }
 
     myTableDiv.appendChild(table);
@@ -325,6 +335,8 @@ var draw_gender_pie_chart = function(males, females) {
         }
     ];
     var ctx = $("#gender_chart").get(0).getContext("2d");
+    ctx.clearRect(0, 0, 400, 400);
+    ctx.beginPath();
     new Chart(ctx).Doughnut(data, chart_options);
 };
 

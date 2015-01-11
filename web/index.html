@@ -235,16 +235,22 @@
                 -->
                         <div class ="navbar-text navbar-left" id='buttons_div'>
                             <button type="button" class="btn btn-warning pull-right" id="start_over_button">
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                                         Start over
                             </button>
                             <button type="button" class='btn btn-info pull-right' id='next_button'>
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                                         Next generation
                             </button>
-                            <button type="button" class="btn btn-success pull-right" id='export_button'>
-                                        Export
-                            </button>
+                            <a class="btn btn-success pull-right" onclick="exportJson(this);" id='export_button'>
+                                       <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                                       Export JSON
+                            </a>
+                            <!-- icons from glyphicons.com -->
                         </div>
-                        <p class="navbar-text navbar-right">Individual project 2014/2015, © Izabela Orłowska</p>
+                        <p class="navbar-text navbar-right">
+                            Individual project 2014/2015, © Izabela Orłowska
+                        </p>
                     </div>
                 </div>
             </div>

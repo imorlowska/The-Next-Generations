@@ -46,11 +46,9 @@ public class ExamplePopulation {
         population.addSpecimen(s1);
         population.addSpecimen(s2);
         
-        for (int i=0; i<100; ++i) {
+        for (int i=0; i<10; ++i) {
             Specimen child = s1.produceChildWith(s2);
             population.addSpecimen(child);
-            
         }
-        
     }
 }

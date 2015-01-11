@@ -19,6 +19,8 @@ package org.generations.population;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.generations.population.exceptions.IncompatibleCharacteristicsException;
+import org.generations.population.exceptions.IncompatibleGenderBreedingException;
 
 /**
  * A class containing all information about the population.
@@ -167,5 +169,51 @@ public class Population {
     
     public int getAverageLifeExp() {
         return averageLifeExp;
+    }
+    
+    public void nextStep() throws IncompatibleGenderBreedingException,
+            IncompatibleCharacteristicsException {
+        List<Specimen> children = new ArrayList();
+        // if possible produce offspring
+        if (females.size() > 0 && males.size() > 0) {
+            for (Specimen mother : females) {
+                if (rand.nextBoolean()) { // 50-50 chances of producing offspring
+                    Specimen father = males.get(rand.nextInt(males.size()));
+                    Specimen child = mother.produceChildWith(father);
+                    specimenNumberToDate++;
+                    children.add(child);
+                }
+            }
+        }
+        
+        List<Specimen> dead = new ArrayList();
+        // age and maybe die
+        for (Specimen s : females) {
+            s.ageSpecimenAndMaybeDie();
+            if (!s.isAlive()) { // specimen died of old age
+                dead.add(s);
+                specimenDead++;
+            }
+        }
+        for (Specimen s : males) {
+            s.ageSpecimenAndMaybeDie();
+            if (!s.isAlive()) { // specimen died of old age
+                dead.add(s);
+                specimenDead++;
+            }
+        }
+        for (Specimen pop : dead) {
+            if (pop.isMale()) {
+                males.remove(pop);
+            } else {
+                females.remove(pop);
+            }
+        }
+        
+        // add children
+        for (Specimen child : children) {
+            addSpecimen(child);
+        }
+        ++ageCycles;
     }
 }

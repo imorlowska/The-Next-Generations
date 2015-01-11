@@ -15,6 +15,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
 import org.generations.examples.ExamplePopulation;
+import org.generations.file.Reader;
+import org.generations.population.Population;
 import org.generations.population.exceptions.IncompatibleCharacteristicsException;
 import org.generations.population.exceptions.IncompatibleGenderBreedingException;
 import org.json.JSONObject;
@@ -65,8 +67,11 @@ public class PopulationAPI {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
-    public String postJson(String content) 
+    public String postJson(String population)
             throws IncompatibleGenderBreedingException, IncompatibleCharacteristicsException {
-        return "{\"receivedData\": " + content + "}";
+        Population pop = Reader.parseJSON2Population(population);
+        pop.nextStep();
+        JSONObject popObject = new JSONObject(pop);
+        return popObject.toString();
     }
 }
