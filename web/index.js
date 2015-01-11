@@ -640,21 +640,21 @@ var draw_doughnut_characteristic_stat = function(index, char) {
         var data = [
             {
                 value: char.currRec,
-                color: "#40FF00",
-                highlight: "#82FA58",
+                color: "#ACF53D",
+                highlight: "#C0F56E",
                 label: char.recName
             },
             {
-                value: char.currSDom,
-                color:"#FF4000",
-                highlight: "#FF5A5E",
-                label: char.domName + " (strongly dom)"
+                value: char.currWDom,
+                color:"#FF9F40",
+                highlight: "#FFB873",
+                label: char.domName + " (weakly dom)"
             },
             {
-                value: char.currWDom,
-                color:"#FFFF00",
-                highlight: "#FA8258",
-                label: char.domName + " (weakly dom)"
+                value: char.currSDom,
+                color:"#7247D7",
+                highlight: "#8D6DD7",
+                label: char.domName + " (strongly dom)"
             }
         ];
     } else {
