@@ -231,9 +231,12 @@ var draw_stats = function(obj) {
     window.current_population = obj;
     console.log(obj.name);
     $('#title')[0].innerHTML = "Population name: " + obj.name;
+    $('#specimen_alive')[0].innerHTML = "Specimen alive: " + (obj.specimenNumberToDate - obj.specimenDead);
+    $('#specimen_dead')[0].innerHTML = "Secimen dead: " + obj.specimenDead;
+    $('#specimen_total')[0].innerHTML = "Specimen total: " + obj.specimenNumberToDate;
     draw_table(obj);
     draw_gender_pie_chart(obj.males.length, obj.females.length);
-    //draw_line_chart([2,3,4,5,3,6,7], [4,2,4,3,2,1,5]);
+    draw_line_chart(obj.males.length, obj.females.length);
 };
 
 var draw_table = function(obj) {
@@ -248,6 +251,8 @@ var draw_table = function(obj) {
     table.border = '1';
     table.appendChild(tableBody);
     var headings = ['gender', 'age', 'life expectancy'];
+    var specimenNb = 0;
+    var sumAge = 0;
 
     var tr = document.createElement('TR');
     tableBody.appendChild(tr);
@@ -275,6 +280,8 @@ var draw_table = function(obj) {
         tr.appendChild(td);
  
         tableBody.appendChild(tr);
+        sumAge += specimen.age;
+        ++specimenNb;
     };
 
     for (i = 0; i < obj.males.length; i++) {
@@ -284,37 +291,54 @@ var draw_table = function(obj) {
     for (i = 0; i < obj.females.length; i++) {
         add_specimen_to_table(obj.females[i]);
     }
-
+    $('#average_age')[0].innerHTML = "Average age: " + Number((sumAge/specimenNb).toFixed(1));
     myTableDiv.appendChild(table);
 };
 
-var draw_line_chart = function(values, more_values) {
+var draw_line_chart = function(males, females) {
+    if (typeof window.labels_list === 'undefined') {
+        window.labels_list = [];
+        window.labels_list.push(window.current_population.ageCycles);
+    }
+    window.labels_list.push(window.current_population.ageCycles);
+    if (typeof window.male_history === 'undefined') {
+        window.male_history = [];
+        window.male_history.push(males);
+    }
+    window.male_history.push(males);
+    if (typeof window.female_history === 'undefined') {
+        window.female_history = [];
+        window.female_history.push(females);
+    }
+    window.female_history.push(females);
     var data = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        labels: window.labels_list,
         datasets: [
             {
-                label: "My First dataset",
+                label: "Females",
                 fillColor: "rgba(220,100,220,0.2)",
                 strokeColor: "rgba(220,220,220,1)",
                 pointColor: "rgba(220,220,220,1)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                data: values
+                data: window.female_history
             },
             {
-                label: "My First dataset",
+                label: "Males",
                 fillColor: "rgba(100,200,100,0.2)",
                 strokeColor: "rgba(220,220,220,1)",
                 pointColor: "rgba(80,90,100,1)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                data: more_values
+                data: window.male_history
             }
         ]
     };
+    
     var ctx = $("#line_chart").get(0).getContext("2d");
+    ctx.clearRect(0,0,400,400);
     var myNewChart = new Chart(ctx).Line(data);
 };
 
@@ -338,6 +362,8 @@ var draw_gender_pie_chart = function(males, females) {
     ctx.clearRect(0, 0, 400, 400);
     ctx.beginPath();
     new Chart(ctx).Doughnut(data, chart_options);
+    $('#males_number')[0].innerHTML = "Males: " + males;
+    $('#females_number')[0].innerHTML = "Females: " + females;
 };
 
 chart_options = {
