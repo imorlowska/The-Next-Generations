@@ -179,7 +179,9 @@ var add_specimen = function() {
                 name: name,
                 stronglyDominant: strongly_dom,
                 weaklyDominant: weakly_dom,
-                recessive: recessive
+                recessive: recessive,
+                recName: list[index].rec_name,
+                domName: list[index].dom_name
             };
             characteristics_list.push(characteristic);
         }
@@ -235,13 +237,15 @@ var fillPopulationAndDrawStats = function() {
     var index = 0;
     for (index = 0; index < window.specimen_list.length; ++index) {
         var spec = window.specimen_list[index];
+        var genotype = fillGenotype(spec);
         if (spec.is_male) {
             spec_obj = {
                 specimenID: spec.id,
                 male: true,
                 age: 0,
                 lifeExp:life_exp_val,
-                alive: true
+                alive: true,
+                genotype: genotype
             };
             males.push(spec_obj);
         } else {
@@ -250,7 +254,8 @@ var fillPopulationAndDrawStats = function() {
                 male: false,
                 age: 0,
                 lifeExp:life_exp_val,
-                alive: true
+                alive: true,
+                genotype: genotype
             };
             females.push(spec_obj);
         }
@@ -267,6 +272,26 @@ var fillPopulationAndDrawStats = function() {
     
     
     draw_stats(population);
+};
+
+var fillGenotype = function(speciman) {
+  genotype = {
+      characteristics: []
+  };
+  var index;
+  for (index = 0; index < speciman.characteristics.length; ++index) {
+      var ch = speciman.characteristics[index];
+      characteristic_object = {
+          recessive: ch.recessive,
+          recessiveName: ch.recName,
+          name: ch.name,
+          stronglyDominant: ch.stronglyDominant,
+          dominant: ch.weaklyDominant,
+          dominantName: ch.domName
+      };
+      genotype.characteristics.push(characteristic_object);
+  }
+  return genotype;
 };
 
 var testGET = function() {
