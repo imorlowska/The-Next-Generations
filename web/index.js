@@ -336,10 +336,14 @@ var draw_line_chart = function(males, females) {
             }
         ]
     };
-    
+    // If chart with old data already exists, destroy it and re-create with new data
+    if (typeof window.gender_line_chart !== 'undefined') {
+        window.gender_line_chart.destroy();
+    }
     var ctx = $("#line_chart").get(0).getContext("2d");
     ctx.clearRect(0,0,400,400);
-    var myNewChart = new Chart(ctx).Line(data);
+    ctx.beginPath();
+    window.gender_line_chart = new Chart(ctx).Line(data);
 };
 
 var draw_gender_pie_chart = function(males, females) {
@@ -358,10 +362,14 @@ var draw_gender_pie_chart = function(males, females) {
             label: "Female"
         }
     ];
+    // If chart with old data already exists, destroy it and re-create with new data
+    if (typeof window.gender_pie_chart !== 'undefined') {
+        window.gender_pie_chart.destroy();
+    }
     var ctx = $("#gender_chart").get(0).getContext("2d");
     ctx.clearRect(0, 0, 400, 400);
     ctx.beginPath();
-    new Chart(ctx).Doughnut(data, chart_options);
+    window.gender_pie_chart = new Chart(ctx).Doughnut(data, chart_options);
     $('#males_number')[0].innerHTML = "Males: " + males;
     $('#females_number')[0].innerHTML = "Females: " + females;
 };
