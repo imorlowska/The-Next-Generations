@@ -33,6 +33,9 @@ public class Reader {
         
         Population population = new Population(json.getString("name"));
         population.setAgeCycles(json.getInt("ageCycles"));
+        population.setAverageLifeExp(json.getInt("averageLifeExp"));
+        population.setSpecimenDead(json.getInt("specimenDead"));
+        population.setSpecimenNumberToDate(json.getInt("specimenNumberToDate"));
         
         JSONArray malesArray = json.getJSONArray("males");
         for (int i = 0; i < malesArray.length(); ++i) {

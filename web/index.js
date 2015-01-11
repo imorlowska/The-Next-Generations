@@ -53,6 +53,11 @@ var init_intro = function() {
         event.preventDefault();
         add_to_characteristic_list();
     });
+    
+    $('#add_specimen_button').click(function(event) {
+       event.preventDefault();
+       add_specimen();
+    });
     $('#start_over_button').click(function(event) {
         event.preventDefault();
        window.location.reload(); 
@@ -74,13 +79,13 @@ var fill_characteristics_list = function() {
                     '<h5>Name: ' + name + '</h5>' +
                     '<div class="btn-group" data-toggle="buttons">' +
                         '<label class="btn btn-primary active">' +
-                            '<input type="radio" name="options" id="'+ name +'_stronglyDom" checked>Strongly dom.</input>' +
+                            '<input type="radio" name="options'+ index +'" id="'+ index +'_stronglyDom" checked>Strongly dom.</input>' +
                         '</label>' +
                         '<label class="btn btn-primary">' +
-                            '<input type="radio" name="options" id="'+ name +'_weaklyDom">Weakly dom.</input>' +
+                            '<input type="radio" name="options'+ index +'" id="'+ index +'_weaklyDom">Weakly dom.</input>' +
                         '</label>' +
                         '<label class="btn btn-primary">' +
-                            '<input type="radio" name="options" id="'+ name +'_Rec">Recessive</input>' +
+                            '<input type="radio" name="options'+ index +'" id="'+ index +'_Rec">Recessive</input>' +
                         '</label>' +
                     '</div>' +
                     '</td></tr>'
@@ -117,6 +122,48 @@ var add_to_characteristic_list = function() {
     };
     // Append object to global list 
     window.characteristic_list_details.push(some_js_object);
+};
+
+var add_specimen = function() {
+    if (typeof window.number_of_specimen === 'undefined') {
+        window.number_of_specimen = 0;
+    }
+    var characteristics_list = [];
+    if (typeof window.characteristic_list_details === 'undefined') {
+        // no user defined characteristics
+    } else {
+        var index;
+        var list = window.characteristic_list_details;
+        for (index = 0; index < list.length; ++index) {
+            var name = list[index].name;
+            var strongly_dom = document.getElementById(index + '_stronglyDom').checked;
+            var weakly_dom = document.getElementById(index + '_weaklyDom').checked;
+            var recessive = document.getElementById(index + '_Rec').checked;
+            characteristic = {
+                id: index,
+                name: name,
+                stronglyDominant: strongly_dom,
+                weaklyDominant: weakly_dom,
+                recessive: recessive
+            };
+            characteristics_list.push(characteristic);
+        }
+    }
+    
+    specimen_object = {
+        id: number_of_specimen,
+        is_male: document.getElementById('male_op').checked,
+        characteristics: characteristics_list
+    };
+    console.log(specimen_object);
+    
+    if (typeof window.specimen_list === 'undefined') {
+        window.specimen_list = [];
+    }
+    window.specimen_list.push(specimen_object);
+    ++window.number_of_specimen;
+    var snd = document.getElementById('specimen_number_div');
+    snd.innerHTML = "<h5>Number of specimen: " + window.number_of_specimen + "</h5>";
 };
 
 var init_stats = function() {

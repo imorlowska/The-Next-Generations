@@ -171,10 +171,10 @@
                                             <br/>
                                             <div class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-primary active">
-                                                    <input type="radio" name="options" id="male_op" checked>Male</input>
+                                                    <input type="radio" name="gender_options" id="male_op" checked>Male</input>
                                                 </label>
                                                 <label class="btn btn-primary">
-                                                    <input type="radio" name="options" id="female_op">Female</input>
+                                                    <input type="radio" name="gender_options" id="female_op">Female</input>
                                                 </label>
                                             </div>
                                         </div>
@@ -183,27 +183,16 @@
                                             <h5>User-defined characteristics:</h5>
                                             <table id="user_characteristics_list" class="table">
                                             </table>
-                                            <!--<div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-primary active">
-                                                <input type="radio" name="options" id="stronglyDom" checked>Strongly dom.</input>
-                                            </label>
-                                            <label class="btn btn-primary">
-                                                <input type="radio" name="options" id="weaklyDom">Weakly dom.</input>
-                                            </label>
-                                            <label class="btn btn-primary">
-                                                <input type="radio" name="options" id="Rec">Recessive</input>
-                                            </label>
-                                            </div>-->
                                         </div>
 
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <button class="btn btn-default">Add specimen</button>
+                                                <button class="btn btn-default" id='add_specimen_button'>Add specimen</button>
                                             </div>
                                         </div>
-
-                                        <h5>Number of specimen: 0</h5>
-
+                                        <div id='specimen_number_div'>
+                                            <h5>Number of specimen: 0</h5>
+                                        </div>
                                         <button class="btn btn-success" id='population_button_3'>Begin simulation!</button>
                 
                                     </div>
