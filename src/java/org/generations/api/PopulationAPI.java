@@ -7,24 +7,26 @@ package org.generations.api;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.POST;
+import org.generations.examples.ExampleFamily;
 import org.generations.examples.ExamplePopulation;
 import org.generations.file.Reader;
+import org.generations.offspring.Family;
+import org.generations.offspring.Generator;
+import org.generations.offspring.Parents;
 import org.generations.population.Population;
+import org.generations.population.Specimen;
 import org.generations.population.exceptions.IncompatibleCharacteristicsException;
 import org.generations.population.exceptions.IncompatibleGenderBreedingException;
 import org.json.JSONObject;
 
 /**
  * REST Web Service
- *
- * @author Iza
+ * @author Izabela Orlowska <imorlowska@gmail.com>
  */
 @Path("api")
 public class PopulationAPI {
@@ -53,16 +55,7 @@ public class PopulationAPI {
         return popObject.toString();
         //return "{\"testValue\":42,\"ageCycles\":100,\"name\":\"Tribbles2\"}";
     }
-
-    /**
-     * PUT method for updating or creating an instance of PopulationAPI
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes("application/json")
-    public void putJson(String content) {
-        
-    }
+    
     
     @POST
     @Consumes("application/json")
@@ -73,5 +66,28 @@ public class PopulationAPI {
         pop.nextStep();
         JSONObject popObject = new JSONObject(pop);
         return popObject.toString();
+    }
+    
+    @GET
+    @Produces("application/json")
+    @Path("offspring")
+    public String getOffspring() throws IncompatibleGenderBreedingException,
+            IncompatibleCharacteristicsException {
+        Family family = ExampleFamily.get();
+        JSONObject popObject = new JSONObject(family);
+        return popObject.toString();
+    }
+    
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("offspring")
+    public String postOffspring(String jparents)
+            throws IncompatibleGenderBreedingException, IncompatibleCharacteristicsException {
+        Parents parents = Reader.parseJSON2Parents(jparents);
+        Specimen child = Generator.produceChild(parents);
+        Family family = new Family(parents, child);
+        JSONObject fObject = new JSONObject(family);
+        return fObject.toString();
     }
 }

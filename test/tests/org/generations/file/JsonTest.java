@@ -1,8 +1,14 @@
 package tests.org.generations.file;
 
+import org.generations.examples.ExampleParents;
 import org.generations.file.Reader;
+import org.generations.offspring.Parents;
+import org.generations.population.Allele;
+import org.generations.population.AlleleCharacteristic;
+import org.generations.population.Genotype;
 import org.generations.population.Population;
 import org.generations.population.Specimen;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -123,5 +129,16 @@ public class JsonTest {
         assertEquals(false, female.isMale());
         
         System.out.println("Read JSON test passed.");
+    }
+
+    @Test
+    public void parentsTest() {
+        Parents parents = ExampleParents.get();
+        JSONObject jObject = new JSONObject(parents);
+        
+        Parents output = Reader.parseJSON2Parents(jObject.toString());
+        
+        assertEquals(jObject.toString(), (new JSONObject(output)).toString());
+        System.out.println("parents parsing passed");
     }
 }

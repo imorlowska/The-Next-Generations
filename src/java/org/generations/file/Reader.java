@@ -16,9 +16,10 @@
  */
 package org.generations.file;
 
+import org.generations.offspring.Parents;
+import org.generations.other.Pair;
 import org.generations.population.Allele;
 import org.generations.population.AlleleCharacteristic;
-import org.generations.population.Characteristic;
 import org.generations.population.Genotype;
 import org.generations.population.Genotype.Gender;
 import org.generations.population.Population;
@@ -105,5 +106,58 @@ public class Reader {
         }
         
         return population;
+    }
+
+    public static Parents parseJSON2Parents(String jsonString) {
+        JSONObject json = new JSONObject(jsonString);
+        JSONObject jMother = json.getJSONObject("mother");
+        JSONObject jFather = json.getJSONObject("father");
+        
+        Genotype mG = new Genotype(Gender.FEMALE);
+        try {
+            JSONArray characteristics = jMother.getJSONObject("genotype").getJSONArray("characteristics");
+            for (int j = 0; j < characteristics.length(); ++j) {
+                JSONObject chObject = characteristics.getJSONObject(j);
+                AlleleCharacteristic ch = new AlleleCharacteristic(chObject.getString("name"));
+                ch.setRecessiveName(chObject.getString("recessiveName"));
+                ch.setDominantName(chObject.getString("dominantName"));
+                if (chObject.getBoolean("recessive")) {
+                    ch.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
+                } else if (chObject.getBoolean("stronglyDominant")) {
+                    ch.setAllele(Allele.DOMINANT, Allele.DOMINANT);
+                } else {
+                    ch.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+                }
+                mG.addCharacteristic(ch);
+            }
+        } catch (Exception e) {
+            // just leave characteristics empty
+        }
+        
+        Genotype fG = new Genotype(Gender.MALE);
+        try {
+            JSONArray characteristics = jFather.getJSONObject("genotype").getJSONArray("characteristics");
+            for (int j = 0; j < characteristics.length(); ++j) {
+                JSONObject chObject = characteristics.getJSONObject(j);
+                AlleleCharacteristic ch = new AlleleCharacteristic(chObject.getString("name"));
+                ch.setRecessiveName(chObject.getString("recessiveName"));
+                ch.setDominantName(chObject.getString("dominantName"));
+                if (chObject.getBoolean("recessive")) {
+                    ch.setAllele(Allele.RECESSIVE, Allele.RECESSIVE);
+                } else if (chObject.getBoolean("stronglyDominant")) {
+                    ch.setAllele(Allele.DOMINANT, Allele.DOMINANT);
+                } else {
+                    ch.setAllele(Allele.DOMINANT, Allele.RECESSIVE);
+                }
+                fG.addCharacteristic(ch);
+            }
+        } catch (Exception e) {
+            //just leave characteristics empty
+        }
+        
+        Specimen mother = Specimen.createSpecimen().setGenotype(mG);
+        Specimen father = Specimen.createSpecimen().setGenotype(fG);
+        
+        return new Parents(mother, father);
     }
 }
