@@ -5,6 +5,9 @@
  */
 package org.generations.examples;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.generations.other.Pair;
 import org.generations.population.Allele;
 import org.generations.population.AlleleCharacteristic;
 import org.generations.population.Genotype;
@@ -42,6 +45,11 @@ public class ExamplePopulation {
         Genotype g2 = new Genotype(Gender.MALE);
         g2.addCharacteristic(c1);
         s2.setGenotype(g2);
+        
+        List<Pair<String,String>> pref = new ArrayList<>();
+        pref.add(new Pair("Fur colour", "rec"));
+        s1.setPreferences(pref);
+        s2.setPreferences(pref);
         
         population.addSpecimen(s1);
         population.addSpecimen(s2);

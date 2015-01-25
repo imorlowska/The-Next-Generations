@@ -179,9 +179,38 @@ public class Population {
         // if possible produce offspring
         if (females.size() > 0 && males.size() > 0) {
             for (Specimen mother : females) {
-                if (rand.nextBoolean()) { // 50-50 chances of producing offspring
-                    Specimen father = males.get(rand.nextInt(males.size()));
-                    Specimen child = mother.produceChildWith(father);
+                Specimen father1 = males.get(rand.nextInt(males.size()));
+                Specimen father2 = males.get(rand.nextInt(males.size()));
+                Specimen father3 = males.get(rand.nextInt(males.size()));
+                
+                int f1 = mother.calculateMatch(father1);
+                int f2 = mother.calculateMatch(father2);
+                int f3 = mother.calculateMatch(father3);
+                
+                Specimen child = null;
+                
+                if (f1 > f2) {
+                    if (f1 > f3) {
+                        if (f1 >= 0 || rand.nextBoolean()) {
+                            child = mother.produceChildWith(father1);
+                        }
+                    } else {
+                        if (f3 >= 0 || rand.nextBoolean()) {
+                            child = mother.produceChildWith(father3);
+                        }
+                    }
+                } else {
+                    if (f2 > f3) {
+                        if (f2 >= 0 || rand.nextBoolean()) {
+                            child = mother.produceChildWith(father2);
+                        }
+                    } else {
+                        if (f3 >= 0 || rand.nextBoolean()) {
+                            child = mother.produceChildWith(father3);
+                        }
+                    }
+                }
+                if (child != null) {
                     children.add(child);
                 }
             }

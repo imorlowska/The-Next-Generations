@@ -31,9 +31,6 @@ import org.json.JSONObject;
 @Path("api")
 public class PopulationAPI {
 
-    @Context
-    private UriInfo context;
-
     /**
      * Creates a new instance of PopulationAPI
      */

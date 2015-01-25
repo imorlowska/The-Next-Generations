@@ -16,6 +16,9 @@
  */
 package org.generations.population;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.generations.other.Pair;
 import org.generations.population.Genotype.Gender;
 import org.generations.population.exceptions.IncompatibleCharacteristicsException;
 import org.generations.population.exceptions.IncompatibleGenderBreedingException;
@@ -30,6 +33,7 @@ public class Specimen {
     private int lifeExp;
     private boolean alive;
     private Genotype genotype;
+    private List<Pair<String, String>> preferences;
     
     /////////////////////////////////// PRIVATE CONSTRUCTOR AND DEFAULT VALUES ///////////////////
     private Specimen() {
@@ -38,6 +42,7 @@ public class Specimen {
         alive = true;
         genotype = null;
         specimenID = 0;
+        preferences = new ArrayList<>();
     }
     
     /////////////////////////////////// STATIC CONSTRUCTOR METHOD AND IN PLACE SETTERS ///////////
@@ -73,7 +78,12 @@ public class Specimen {
         this.alive = alive;
         return this;
     }
-
+    
+    public Specimen setPreferences(List<Pair<String, String>> preferences) {
+        this.preferences = preferences;
+        return this;
+    }
+ 
     /////////////////////////////////// GETTERS //////////////////////////////////////////////////
     public int getAge() {
         return this.age;
@@ -95,6 +105,9 @@ public class Specimen {
         return alive;
     }
     
+    public List<Pair<String, String>> getPreferences() {
+        return preferences;
+    }
     /////////////////////////////////// SPECIAL METHODS //////////////////////////////////////////
     /**
      * Ages the specimen.
@@ -157,6 +170,52 @@ public class Specimen {
         Specimen child = new Specimen();
         child.setGenotype(
                 Genotype.createChild(this.genotype, mate.getGenotype()));
+        setPreferences(child, this, mate);
         return child;
+    }
+    
+    public int calculateMatch(Specimen mate) {
+        return getSubmatch(this, mate) + getSubmatch(mate, this);
+    }
+    
+    private static int getSubmatch(Specimen s1, Specimen s2) {
+        int score = 0;
+        for (Pair<String, String> pref : s1.preferences) {
+            AlleleCharacteristic match = (AlleleCharacteristic)
+                    s2.genotype.getCharacteristic(pref.getFirst());
+            if (match != null) {
+                switch (pref.getSecond()) {
+                    case "dom":
+                        if (match.isDominant()) {
+                            score += 1;
+                        } else {
+                            score -= 1;
+                        }   break;
+                    case "rec":
+                        if (match.isDominant()) {
+                            score -= 1;
+                        } else {
+                            score += 1;
+                        }   break;
+                }
+            }
+        }
+        return score;
+    }
+    
+    private void setPreferences(Specimen child, Specimen p1, Specimen p2) {
+        if (child.isMale()) {
+            if (p1.isMale()) {
+                child.setPreferences(p1.getPreferences());
+            } else {
+                child.setPreferences(p2.getPreferences());
+            }
+        } else { //female
+            if (p1.isMale()) {
+                child.setPreferences(p2.getPreferences());
+            } else {
+                child.setPreferences(p1.getPreferences());
+            }
+        }
     }
 }

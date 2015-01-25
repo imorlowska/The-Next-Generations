@@ -16,6 +16,8 @@
  */
 package org.generations.file;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.generations.offspring.Parents;
 import org.generations.other.Pair;
 import org.generations.population.Allele;
@@ -64,12 +66,27 @@ public class Reader {
             } catch (Exception e) {
                 //just leave characteristics empty
             }
+            
+            List<Pair<String,String>> pref = new ArrayList<>();
+            try {
+              JSONArray preferences = sObject.getJSONArray("preferences");
+              for (int j = 0; j < preferences.length(); ++j) {
+                  JSONObject pObject = preferences.getJSONObject(j);
+                  String name = pObject.getString("first");
+                  String recdom = pObject.getString("second");
+                  pref.add(new Pair(name,recdom));
+              }
+            } catch (Exception e) {
+                // just leave preferences empty
+            }
+            
             Specimen specimen = Specimen.createSpecimen()
                     .setAge(sObject.getInt("age"))
                     .setLifeExp(sObject.getInt("lifeExp"))
                     .setSpecimenID(sObject.getLong("specimenID"))
                     .setGenotype(g)
-                    .setIsAlive(sObject.getBoolean("alive"));
+                    .setIsAlive(sObject.getBoolean("alive"))
+                    .setPreferences(pref);
             population.addSpecimen(specimen);
         }
         

@@ -67,14 +67,13 @@ public class Genotype {
         return this.gender;
     }
     
-    public Characteristic getCharacteristic(String name) 
-            throws IllegalAccessException {
+    public Characteristic getCharacteristic(String name) {
         for (Characteristic c : characteristics) {
             if (c.getName().equalsIgnoreCase(name)) {
                 return c;
             }
         }
-        throw new IllegalAccessException("Characterstic not found");
+        return null;
     }
     
     public static Genotype createChild(Genotype g1, Genotype g2)
