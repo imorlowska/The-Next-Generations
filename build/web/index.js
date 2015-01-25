@@ -4,6 +4,10 @@ $(document).ready(function() {
     $('#create_new_population_content').hide();
     $('#buttons_div').hide();
     $('#load_population_content').hide();
+    $('#generator_container').hide();
+    $('#load_generator_content').hide();
+    $('#create_new_generator_content').hide();
+    $('#next_child').hide();
     init_intro();
 });
 
@@ -40,7 +44,6 @@ var init_intro = function() {
         event.preventDefault();
         var input_json = document.getElementById("pasted_population_json").value;
         var parsed = JSON.parse(input_json);
-        //console.log(parsed);
         init_loaded_stats(parsed);
     });
     $('#population_button_1').click(function(event) {
@@ -53,9 +56,6 @@ var init_intro = function() {
     });
     $('#population_button_2').click(function(event) {
         event.preventDefault();
-        // TODO validate and process input
-        //$('#create_1').hide();
-        //$('#create_2').show();
         $('#create_3').show();
         document.getElementById("add_characteristic_button").disabled = true;
         fill_characteristics_list();
@@ -63,9 +63,6 @@ var init_intro = function() {
     });
     $('#population_button_3').click(function(event) {
         event.preventDefault();
-        // TODO validate and process input
-        //$('#create_1').hide();
-        //$('#create_2').hide();
         init_stats(false);
     });
     $('#add_characteristic_button').click(function(event) {
@@ -92,12 +89,96 @@ var init_intro = function() {
             dataType: 'json'
         });
     });
+    
+    $('#example_generator_button').click(function() {
+        // Hide intro page
+        $('#intro_main').hide();
+        // Show 'new population' page
+        $('#generator_container').show();
+        $('#buttons_div').show();
+        $('#next_button').hide();
+        $('#export_button').hide();
+        $('#start_over_button').show();
+        draw_example_generator();
+    });
+    
+    $('#new_generator_button').click(function() {
+        // Hide intro page
+        $('#intro_main').hide();
+        // Show 'new population' page
+        $('#create_new_generator_content').show();
+        $('#create_gen_1').show();
+        $('#create_gen_2').hide();
+        $('#create_gen_3').hide();
+        $('#buttons_div').show();
+        $('#next_button').hide();
+        $('#export_button').hide();
+        $('#start_over_button').show();
+    });
+    
+    $('#new_gen_butt_1').click(function(event) {
+        event.preventDefault();
+        document.getElementById("add_characteristic_button2").disabled = true;
+        fill_characteristics_list2();
+        $('#create_gen_2').show();
+        $('#new_gen_butt_1').disabled = true;
+    });
+    
+    $('#add_characteristic_button2').click(function(event) {
+        event.preventDefault();
+        add_to_characteristic_list2(); 
+    });
+    
+    $('#new_gen_butt_2').click(function(event) {
+        event.preventDefault();
+        $('#create_gen_3').show();
+        $('#new_gen_butt_2').disabled = true;
+    });
+    
+    $('#new_gen_butt_3').click(function(event) {
+        event.preventDefault();
+        fill_and_draw_generator();
+    });
+    
+    $('#next_child').click(function(event) {
+        event.preventDefault();
+        $.ajax({
+        type: 'POST',
+        url: 'webresources/api/offspring',
+        data: JSON.stringify(window.current_generator),
+        success: function(data) { draw_generator(data); },
+        contentType: "application/json",
+        dataType: 'json'
+    });
+    });
+    
+    $('#load_generator_button').click(function(event){
+        event.preventDefault();
+        $('#intro_main').hide();
+        $('#load_generator_content').show();
+        $('#buttons_div').show();
+        $('#next_button').hide();
+        $('#export_button').hide();
+        $('#start_over_button').show();
+    });
+    $('#load_generator_button_next').click(function(event) {
+        event.preventDefault();
+        var input_json = document.getElementById("pasted_generator_json").value;
+        var parsed = JSON.parse(input_json);
+        draw_generator(parsed);
+    });
 };
 
 function exportJson(el) {
-    var json = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.current_population));
-    el.setAttribute("href", "data:" + json);
-    el.setAttribute("download", window.current_population.name + ".json");    
+    if (window.current_generator === 'undefined') {
+        var json = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.current_population));
+        el.setAttribute("href", "data:" + json);
+        el.setAttribute("download", window.current_population.name + ".json");
+    } else {
+        var json = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.current_generator));
+        el.setAttribute("href", "data:" + json);
+        el.setAttribute("download", "offsping_generator.json");
+    }
 }
 
 var fill_characteristics_list = function() {
@@ -150,30 +231,21 @@ var fill_characteristics_list = function() {
 };
 
 var add_to_characteristic_list = function() {
-    // $('#characteristic_name').value didn't work for some reason... investigate
     var name = document.getElementById('characteristic_name').value;
     var dominant_name = document.getElementById('dominant_name').value;
     var recessive_name = document.getElementById('recessive_name').value;
-    
 
     list_item = '<tr><td>' + name + '</td><td>' + dominant_name + '</td><td>' + recessive_name + '</td></tr>';
     list = $('#characteristic_list');
     list.append(list_item);
-    // Copy the form data into a global variable
-    
-    // Create global variable if doesn't exist
-    // TODO test if this works
     if (typeof window.characteristic_list_details === 'undefined') {
         window.characteristic_list_details = [];
     }
-    // FIXME real JS list append
-    // Create JS object to hold all data
     some_js_object = {
         name: name,
         dom_name: dominant_name,
         rec_name: recessive_name
     };
-    // Append object to global list 
     window.characteristic_list_details.push(some_js_object);
 };
 
@@ -236,6 +308,7 @@ var add_specimen = function() {
     var snd = document.getElementById('specimen_number_div');
     snd.innerHTML = "<h5>Number of specimen: " + window.number_of_specimen + "</h5>";
 };
+
 var init_loaded_stats = function(obj) {
     $('#buttons_div').show();
     $('#next_button').show();
@@ -247,6 +320,7 @@ var init_loaded_stats = function(obj) {
     
     $('#stats_container').show();
 };
+
 var init_stats = function(is_example) {
     // Hide other sections
     $('#intro_main').hide();
@@ -353,6 +427,188 @@ var formToJSON = function () {
      return JSON.stringify({
                     "name": "IDK"
                     }); 
+};
+
+var add_to_characteristic_list2 = function() {
+    var name = document.getElementById('characteristic_name2').value;
+    var dominant_name = document.getElementById('dominant_name2').value;
+    var recessive_name = document.getElementById('recessive_name2').value;
+
+    list_item = '<tr><td>' + name + '</td><td>' + dominant_name + '</td><td>' + recessive_name + '</td></tr>';
+    list = $('#characteristic_list2');
+    list.append(list_item);
+    if (typeof window.characteristic_list_details2 === 'undefined') {
+        window.characteristic_list_details2 = [];
+    }
+    some_js_object = {
+        name: name,
+        dom_name: dominant_name,
+        rec_name: recessive_name
+    };
+    window.characteristic_list_details2.push(some_js_object);
+};
+
+var fill_characteristics_list2 = function() {
+    console.log('Trying to fill characteristics list for parents...');
+    if (typeof window.characteristic_list_details2 === 'undefined') {
+        alert('No characteristics defined! Experiment is pretty useless...');
+        $('#mother_gen').hide();
+        $('#father_gen').hide();
+    } else {
+        var index;
+        var list = window.characteristic_list_details2;
+        for (index = 0; index < list.length; ++index) {
+            var name = list[index].name;
+            var dom = list[index].dom_name;
+            var rec = list[index].rec_name;
+            $('#user_characteristics_list2').append(
+                    '<tr><td>' +
+                    '<h5>Name: ' + name + '</h5>' +
+                    '<div class="btn-group" data-toggle="buttons">' +
+                        '<label class="btn btn-primary active">' +
+                            '<input type="radio" name="2options'+ index +'" id="'+ index +'_stronglyDom2" checked>S.Dom.</input>' +
+                        '</label>' +
+                        '<label class="btn btn-primary">' +
+                            '<input type="radio" name="2options'+ index +'" id="'+ index +'_weaklyDom2">W.Dom.</input>' +
+                        '</label>' +
+                        '<label class="btn btn-primary">' +
+                            '<input type="radio" name="2options'+ index +'" id="'+ index +'_Rec2">Recessive</input>' +
+                        '</label>' +
+                    '</div>' +
+                    '</td></tr>');
+            $('#user_characteristics_list3').append().append(
+                    '<tr><td>' +
+                    '<h5>Name: ' + name + '</h5>' +
+                    '<div class="btn-group" data-toggle="buttons">' +
+                        '<label class="btn btn-primary active">' +
+                            '<input type="radio" name="3options'+ index +'" id="'+ index +'_stronglyDom3" checked>S.Dom.</input>' +
+                        '</label>' +
+                        '<label class="btn btn-primary">' +
+                            '<input type="radio" name="3options'+ index +'" id="'+ index +'_weaklyDom3">W.Dom.</input>' +
+                        '</label>' +
+                        '<label class="btn btn-primary">' +
+                            '<input type="radio" name="3options'+ index +'" id="'+ index +'_Rec3">Recessive</input>' +
+                        '</label>' +
+                    '</div>' +
+                    '</td></tr>');
+        }
+    }
+};
+
+var fill_and_draw_generator = function() {
+    var mother_characteristics = [];
+    var father_characteristics = [];
+    
+    if (typeof window.characteristic_list_details2 === 'undefined') {
+        // no user defined characteristics
+    } else {
+        var index;
+        var list = window.characteristic_list_details2;
+        for (index = 0; index < list.length; ++index) {
+            var name = list[index].name;
+            var strongly_dom2 = document.getElementById(index + '_stronglyDom2').checked;
+            var weakly_dom2 = document.getElementById(index + '_weaklyDom2').checked;
+            var recessive2 = document.getElementById(index + '_Rec2').checked;
+            
+            var strongly_dom3 = document.getElementById(index + '_stronglyDom3').checked;
+            var weakly_dom3 = document.getElementById(index + '_weaklyDom3').checked;
+            var recessive3 = document.getElementById(index + '_Rec3').checked;
+  
+            mum_characteristic = {
+                name: name,
+                stronglyDominant: strongly_dom2,
+                dominant: weakly_dom2,
+                recessive: recessive2,
+                recessiveName: list[index].rec_name,
+                dominantName: list[index].dom_name
+            };
+            
+            dad_characteristic = {
+                name: name,
+                stronglyDominant: strongly_dom3,
+                dominant: weakly_dom3,
+                recessive: recessive3,
+                recessiveName: list[index].rec_name,
+                dominantName: list[index].dom_name
+            };
+            
+            mother_characteristics.push(mum_characteristic);
+            father_characteristics.push(dad_characteristic);
+        }
+    }
+    
+    parents = {
+        mother: {
+            preferences: [],
+            alive: true,
+            specimenID: 0,
+            lifeExp: 1,
+            age: 0,
+            male: false,
+            genotype: {
+                characteristics: mother_characteristics
+            }
+        },
+        father: {
+            preferences: [],
+            alive: true,
+            specimenID: 1,
+            lifeExp: 1,
+            age: 0,
+            male: true,
+            genotype: {
+                characteristics: father_characteristics
+            }
+        }
+    };
+        
+    $.ajax({
+        type: 'POST',
+        url: 'webresources/api/offspring',
+        data: JSON.stringify(parents),
+        success: function(data) { draw_generator(data); },
+        contentType: "application/json",
+        dataType: 'json'
+    });
+};
+
+var draw_example_generator = function() {
+    var baseURL = "webresources/api/offspring";
+    $.getJSON(baseURL, draw_generator);
+};
+
+var draw_generator = function(obj) {
+    window.current_generator = obj;
+    $('#create_new_generator_content').hide();
+    $('#load_generator_content').hide();
+    $('#generator_container').show();
+    $('#export_button').show();
+    $('#next_child').show();
+    fill_generator_data();
+}
+
+var fill_generator_data = function() {
+    fill_data($('#mother_information'),
+            window.current_generator.mother.genotype.characteristics);
+    fill_data($('#father_information'),
+            window.current_generator.father.genotype.characteristics);
+    fill_data($('#child_information'),
+            window.current_generator.child.genotype.characteristics);
+};
+
+var fill_data = function(table, list) {
+    console.log(list);
+    table[0].innerHTML = "";
+    for (i = 0; i < list.length; ++i) {
+        var type = (list[i].recessive) ? list[i].recessiveName : list[i].dominantName;
+        var spec = (list[i].recessive) ? 'recessive' : 
+                        ((list[i].stronglyDominant) ? 'strongly dominant'
+                            : 'weakly dominant');
+        var line = '<tr><td>' +
+                    '<h5>»' + list[i].name + ": " + type +  "(" + spec + ')</h5>' +
+                    '</td></tr>'
+        table.append(line);
+    }
 };
 
 var draw_stats = function(obj) {
@@ -804,3 +1060,5 @@ chart_options = {
     //String - A legend template
     legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
 };
+
+

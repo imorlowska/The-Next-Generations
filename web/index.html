@@ -29,7 +29,7 @@
                 -->
                 <div id="intro_container" class="row">
                     <div id="intro_main">
-                        <div class=col-sm-4>
+                        <div class=col-sm-6>
                             <div class="panel panel-success" id="population_nav_contents">
                                 <div class="panel-heading">
                                     <div class="text-center">
@@ -48,34 +48,17 @@
                             </div>
                         </div>
 
-                        <div class=col-sm-4>
-                            <div class="panel panel-info" id="characteristic_nav_contents">
-                                <div class="panel-heading text-center">
-                                    <h3 class="panel-title">Characteristic</h3>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="text-center">
-                                        <div class="btn-group-vertical" role="group">
-                                            <button class='btn btn-default'>See example</button>
-                                            <button class='btn btn-default'>Create new characteristic</button>
-                                            <button class='btn btn-default'>Load previous characteristic</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class=col-sm-4>
-                            <div class="panel panel-danger" id="offspring_nav">
+                        <div class=col-sm-6>
+                            <div class="panel panel-info" id="offspring_nav">
                                 <div class="panel-heading text-center">
                                     <h3 class="panel-title">Offspring generator</h3>
                                 </div>
                                 <div class="panel-body">
                                     <div class="text-center">
                                         <div class="btn-group-vertical" role="group">
-                                            <button class='btn btn-default'>See example</button>
-                                            <button class='btn btn-default'>Create new experiment</button>
-                                            <button class='btn btn-default'>Load previous offspring</button>
+                                            <button class='btn btn-default' id='example_generator_button'>See example</button>
+                                            <button class='btn btn-default' id='new_generator_button'>Create new experiment</button>
+                                            <button class='btn btn-default' id='load_generator_button'>Load previous offspring</button>
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +168,7 @@
                         
                         <div class="col-sm-4">
                             <div class="panel panel-default" id="create_3">
-                                <div class="panel-heading">
+                                <div class="panel-heading text-center">
                                     <h4>Step 3: Define specimen</h4>
                                 </div>
                                 <form role="form" class="form form-default">
@@ -231,7 +214,169 @@
                         </div>
                     </div>
                 </div>
+                
+                <!--
+                generator div
+                -->
+                <div id="generator_container">
+                    <div id="parents">
+                        <div class=col-sm-6>
+                            <div class="panel panel-danger" id="mother_contents">
+                                <div class="panel-heading">
+                                    <div class="text-center">
+                                        <h3 class="panel-title">Mother</h3>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <h4>Genotype:</h4>
+                                    <table id="mother_information" class="table">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class=col-sm-6>
+                            <div class="panel panel-info" id="father_contents">
+                                <div class="panel-heading text-center">
+                                    <h3 class="panel-title">Father</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <h4>Genotype:</h4>
+                                    <table id="father_information" class="table">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class=col-sm-12>
+                            <div class="panel panel-warning" id="child_contents">
+                                <div class="panel-heading text-center">
+                                    <h3 class="panel-title">Child</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <h4>Genotype:</h4>
+                                    <table id="child_information" class="table">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    <br><br><br><br><br><br>.
+                </div>
+                
+                <!--
+                new generator
+                -->
+                <div id="create_new_generator_content">
+                        <h3>Create new offspring generator</h3>
+
+                        <div class="col-sm-4">
+                            <div class="panel panel-default" id="create_gen_1">
+                                <div class="panel-heading text-center">
+                                    <h4>Step 1: Characteristics</h4>
+                                </div>
+                                <div class="panel-body" id="gen_characteristic_form">
+                                    <form role="form" class="form form-default">
+                                        <div class="form-group">
+                                            <label for="characteristic_name">Characteristic name</label>
+                                            <input type="text" class="form-control" id="characteristic_name2" placeholder="Hair colour"/>
+                                        </div>
+    
+                                        <div class="form-group">
+                                            <label for="dominant_name">Dominant name</label>
+                                            <input type="text" class="form-control" id="dominant_name2" placeholder="Brown"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="recessive_name">Recessive name</label>
+                                            <input type="text" class="form-control" id="recessive_name2" placeholder="Blonde"/>
+                                        </div>
+                                        <button class="btn btn-default" id='add_characteristic_button2'>Add characteristic</button>
+
+                                    </form>
+                                
+                                    <h5>Current characteristics:</h5>
+                                    <table id="characteristic_list2" class='table'>
+                                        <tr>
+                                            <td>Characteristic name</td>
+                                            <td>Dominant</td>
+                                            <td>Recessive</td>
+                                        </tr>
+                                    </table>
+
+                                    <button class="btn btn-success" id='new_gen_butt_1'>Next</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="panel panel-default" id="create_gen_2">
+                                <div class="panel-heading text-center">
+                                    <h4>Step 2: Define mother</h4>
+                                </div>
+                                <form role="form" class="form form-default">
+                                    <div class="panel-body">
+                                        <div class="form-group" id="mother_gen">
+                                            <h5>Mother's genotype:</h5>
+                                            <table id="user_characteristics_list2" class="table">
+                                            </table>
+                                        </div>
+                                        <button class="btn btn-success" id='new_gen_butt_2'>Next</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <div class="panel panel-default" id="create_gen_3">
+                                <div class="panel-heading text-center">
+                                    <h4>Step 3: Define father</h4>
+                                </div>
+                                <form role="form" class="form form-default">
+                                    <div class="panel-body">
+                                        <div class="form-group" id='father_gen'>
+                                            <h5>Father's genotype:</h5>
+                                            <table id="user_characteristics_list3" class="table">
+                                            </table>
+                                        </div>
+                                        <button class="btn btn-success" id='new_gen_butt_3'>
+                                            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+                                            Create child
+                                            <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                
+                
+                <!--
+                load generator
+                -->
+                <div id="load_generator_content">
+                    <div class="col-sm-6">
+                        <div class="panel panel-default" id="load_population_div">
+                            <div class="panel-heading text-center">
+                                <h4>Load offspring generator from JSON</h4>
+                            </div>
+                            <div class="panel-body">
+                                <p> Please paste JSON string that you obtained in a previous experiment. </p>
+                                <p> Please make sure it is copied and pasted properly. </p>
+                                <form role="form" class="form form-default">
+                                    <div class="form-group">
+                                        <textarea rows="4" cols="50" id="pasted_generator_json"></textarea>
+                                    </div>
+                                    <button id="load_generator_button_next" class="btn btn-success">
+                                        <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                                        Load
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <!--
                 STATS DIV
                 -->
@@ -278,6 +423,10 @@
                             <button type="button" class='btn btn-info pull-right' id='next_button'>
                                         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                                         Next generation
+                            </button>
+                            <button type="button" class='btn btn-info pull-right' id='next_child'>
+                                        <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+                                        Next child
                             </button>
                             <a class="btn btn-success pull-right" onclick="exportJson(this);" id='export_button'>
                                        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
