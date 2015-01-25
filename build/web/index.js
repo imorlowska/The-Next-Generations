@@ -990,32 +990,32 @@ var draw_line_chart_characteristic_stat = function(index, char) {
         datasets: [
             {
                 label: char.recName,
-                fillColor: "rgba(220,100,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
+                fillColor: "rgba(80, 159, 92, 0.2)",
+                strokeColor: "rgba(80, 159, 92, 1)",
+                pointColor: "rgba(80, 159, 92, 1)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(80, 159, 92, 1)",
                 data: char.recHist
             },
             {
                 label: char.domName + "(s)",
-                fillColor: "rgba(100,200,100,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(80,90,100,1)",
+                fillColor: "rgba(153, 0, 194, 0.2)",
+                strokeColor: "rgba(153, 0, 194, 1)",
+                pointColor: "rgba(153, 0, 194, 1)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(153, 0, 194, 1)",
                 data: char.sDomHist
             },
             {
                 label: char.domName + "(w)",
-                fillColor: "rgba(100,200,100,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(80,90,100,1)",
+                fillColor: "rgba(195, 115, 0, 0.2)",
+                strokeColor: "rgba(195, 115, 0, 1)",
+                pointColor: "rgba(195, 115, 0, 1)",
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                pointHighlightStroke: "rgba(195, 115, 0, 1)",
                 data: char.wDomHist
             }
         ]
