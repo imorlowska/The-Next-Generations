@@ -585,7 +585,7 @@ var draw_generator = function(obj) {
     $('#export_button').show();
     $('#next_child').show();
     fill_generator_data();
-}
+};
 
 var fill_generator_data = function() {
     fill_data($('#mother_information'),
@@ -605,7 +605,7 @@ var fill_data = function(table, list) {
                         ((list[i].stronglyDominant) ? 'strongly dominant'
                             : 'weakly dominant');
         var line = '<tr><td>' +
-                    '<h5>»' + list[i].name + ": " + type +  "(" + spec + ')</h5>' +
+                    '<h5>»' + list[i].name + ": " + type + " (" + spec + ')</h5>' +
                     '</td></tr>'
         table.append(line);
     }
