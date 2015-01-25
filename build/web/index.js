@@ -105,11 +105,14 @@ var fill_characteristics_list = function() {
     if (typeof window.characteristic_list_details === 'undefined') {
         // no user defined characteristics
         $('#user_characteristics_for_specimen').hide();
+        $('#user_characteristics_preference_for_specimen').hide();
     } else {
         var index;
         var list = window.characteristic_list_details;
         for (index = 0; index < list.length; ++index) {
             var name = list[index].name;
+            var dom = list[index].dom_name;
+            var rec = list[index].rec_name;
             $('#user_characteristics_list').append(
                     '<tr><td>' +
                     '<h5>Name: ' + name + '</h5>' +
@@ -126,7 +129,22 @@ var fill_characteristics_list = function() {
                     '</div>' +
                     '</td></tr>'
                     );
-            
+            $('#user_characteristics_preference_for_specimen').append(
+                    '<tr><td>' +
+                    '<h5>Name: ' + name + '</h5>' +
+                    '<div class="btn-group" data-toggle="buttons">' +
+                        '<label class="btn btn-primary active">' +
+                            '<input type="radio" name="pref_options'+ index +'" id="'+ index +'_indifferent" checked>Indifferent</input>' +
+                        '</label>' +
+                        '<label class="btn btn-primary">' +
+                            '<input type="radio" name="pref_options'+ index +'" id="'+ index +'_domi">' + dom + '</input>' +
+                        '</label>' +
+                        '<label class="btn btn-primary">' +
+                            '<input type="radio" name="pref_options'+ index +'" id="'+ index +'_reci">' + rec + '</input>' +
+                        '</label>' +
+                    '</div>' +
+                    '</td></tr>'
+                    );
         }
     }
 };
@@ -164,6 +182,7 @@ var add_specimen = function() {
         window.number_of_specimen = 0;
     }
     var characteristics_list = [];
+    var preferences_list = [];
     if (typeof window.characteristic_list_details === 'undefined') {
         // no user defined characteristics
     } else {
@@ -174,6 +193,21 @@ var add_specimen = function() {
             var strongly_dom = document.getElementById(index + '_stronglyDom').checked;
             var weakly_dom = document.getElementById(index + '_weaklyDom').checked;
             var recessive = document.getElementById(index + '_Rec').checked;
+            
+            var pref = ((document.getElementById(index + '_reci').checked) ?
+                            'rec' : 
+                        ((document.getElementById(index + '_domi').checked) ?
+                            'dom' : 'undefined'
+                        ));
+            
+            if (!(pref === 'undefined')) {
+                preference = {
+                    first: name,
+                    second: pref
+                };
+                preferences_list.push(preference);
+            }
+                
             characteristic = {
                 id: index,
                 name: name,
@@ -190,7 +224,8 @@ var add_specimen = function() {
     specimen_object = {
         id: number_of_specimen,
         is_male: document.getElementById('male_op').checked,
-        characteristics: characteristics_list
+        characteristics: characteristics_list,
+        preferences: preferences_list
     };
     
     if (typeof window.specimen_list === 'undefined') {
@@ -245,7 +280,8 @@ var fillPopulationAndDrawStats = function() {
                 age: 0,
                 lifeExp:life_exp_val,
                 alive: true,
-                genotype: genotype
+                genotype: genotype,
+                preferences: spec.preferences
             };
             males.push(spec_obj);
         } else {
@@ -255,7 +291,8 @@ var fillPopulationAndDrawStats = function() {
                 age: 0,
                 lifeExp:life_exp_val,
                 alive: true,
-                genotype: genotype
+                genotype: genotype,
+                preferences: spec.preferences
             };
             females.push(spec_obj);
         }
