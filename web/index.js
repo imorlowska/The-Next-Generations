@@ -170,7 +170,7 @@ var init_intro = function() {
 };
 
 function exportJson(el) {
-    if (window.current_generator === 'undefined') {
+    if (typeof window.current_generator === 'undefined') {
         var json = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.current_population));
         el.setAttribute("href", "data:" + json);
         el.setAttribute("download", window.current_population.name + ".json");
