@@ -18,6 +18,7 @@ package org.generations.file;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.generations.logs.LogsHandler;
 import org.generations.offspring.Parents;
 import org.generations.other.Pair;
 import org.generations.population.Allele;

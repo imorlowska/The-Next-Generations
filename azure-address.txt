@@ -1,0 +1,1 @@
+http://iza.westeurope.cloudapp.azure.com:8080/the-next-generations/

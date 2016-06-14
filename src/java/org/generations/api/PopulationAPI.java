@@ -15,6 +15,7 @@ import javax.ws.rs.POST;
 import org.generations.examples.ExampleFamily;
 import org.generations.examples.ExamplePopulation;
 import org.generations.file.Reader;
+import org.generations.logs.LogsHandler;
 import org.generations.offspring.Family;
 import org.generations.offspring.Generator;
 import org.generations.offspring.Parents;
@@ -86,5 +87,19 @@ public class PopulationAPI {
         Family family = new Family(parents, child);
         JSONObject fObject = new JSONObject(family);
         return fObject.toString();
+    }
+    
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("logs")
+    public String postLogs(String json) {
+        
+        try {
+            boolean result = LogsHandler.push(json);
+            return "{\"status\": \""+ (result?"success":"fail") +"\"}";
+        } catch (Exception e) {
+            return "{\"status\": \"exception\"}";
+        }
     }
 }

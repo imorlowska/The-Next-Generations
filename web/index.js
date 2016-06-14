@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    send_log("intro");
     //$('#intro_main').hide();
     $('#stats_container').hide();
     $('#create_new_population_content').hide();
@@ -26,6 +27,7 @@ var init_intro = function() {
         $('#start_over_button').show();
     });
     $('#example_population_button').click(function(event) {
+        send_log("population_example");
         event.preventDefault();
         console.log('loading example population...');
         $('#start_over_div').show();
@@ -41,6 +43,7 @@ var init_intro = function() {
         $('#start_over_button').show();
     });
     $('#load_button_next').click(function(event) {
+        send_log("population_load");
         event.preventDefault();
         var input_json = document.getElementById("pasted_population_json").value;
         var parsed = JSON.parse(input_json);
@@ -62,6 +65,7 @@ var init_intro = function() {
         document.getElementById("population_button_2").disabled = true;
     });
     $('#population_button_3').click(function(event) {
+        send_log("population_new");
         event.preventDefault();
         init_stats(false);
     });
@@ -80,6 +84,7 @@ var init_intro = function() {
     });
     
     $('#next_button').click( function() {
+        send_log("population_next");
         $.ajax({
             type: 'POST',
             url: 'webresources/api',
@@ -91,6 +96,7 @@ var init_intro = function() {
     });
     
     $('#example_generator_button').click(function() {
+        send_log("generator_example");
         // Hide intro page
         $('#intro_main').hide();
         // Show 'new population' page
@@ -136,11 +142,13 @@ var init_intro = function() {
     });
     
     $('#new_gen_butt_3').click(function(event) {
+        send_log("generator_new");
         event.preventDefault();
         fill_and_draw_generator();
     });
     
     $('#next_child').click(function(event) {
+        send_log("generator_next");
         event.preventDefault();
         $.ajax({
         type: 'POST',
@@ -162,6 +170,7 @@ var init_intro = function() {
         $('#start_over_button').show();
     });
     $('#load_generator_button_next').click(function(event) {
+        send_log("generator_load");
         event.preventDefault();
         var input_json = document.getElementById("pasted_generator_json").value;
         var parsed = JSON.parse(input_json);
@@ -1061,4 +1070,37 @@ chart_options = {
     legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
 };
 
+navigator.browserInfo = function(){
+    var ua= navigator.userAgent, tem,
+    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'IE '+(tem[1] || '');
+    }
+    if(M[1]=== 'Chrome'){
+        tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+    }
+    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+    return M.join('-');
+};
 
+var send_log = function(operation_name) {
+    console.log("started log");
+    var object = {
+        operation: operation_name,
+        "@timestamp": Date.now(),
+        browser: navigator.browserInfo()
+    };
+    console.log("will send log");
+    $.ajax({
+            type: 'POST',
+            url: 'webresources/api/logs',
+            data: JSON.stringify(object),
+            success: function(data) { console.log("Logs finished. Reply:"); console.log(data); },
+            contentType: "application/json",
+            dataType: 'json'
+        });
+    console.log("log sent");
+};
